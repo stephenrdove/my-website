@@ -1,29 +1,28 @@
 body {
     text-align: center;
     color:black;
-    background-color: #b7fcf3;
+    background-color rbga(0,0,0,0.5);
+    padding-top: 80px
 }
 
-#header {
+.header {
     font-size: 300%;
+    background-color: blanchedalmond
 }
 
-ul {
-    list-style: none;
-}
 
-li {
-    display: inline;
-}
+#myNav ul { list-style: none; }
 
-a:link, a:visited {
-    color: black;
+#myNav li { display: inline; }
+
+#myNav a:link, a:visited {
+    color: white;
     padding: 14px 25px;
     text-align: center; 
     text-decoration: none;
     display: inline-block;
 }
 
-a:hover, a:active {
-    background-color: rgb(255, 238, 0);
+#myNav a:hover, a:active {
+    background-color: black;
 }
