@@ -1,0 +1,29 @@
+body {
+    text-align: center;
+    color:black;
+    background-color: #b7fcf3;
+}
+
+#header {
+    font-size: 300%;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    display: inline;
+}
+
+a:link, a:visited {
+    color: black;
+    padding: 14px 25px;
+    text-align: center; 
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:hover, a:active {
+    background-color: rgb(255, 238, 0);
+}
