@@ -1,13 +1,14 @@
 body {
     text-align: center;
     color:black;
-    background-color rbga(0,0,0,0.5);
-    padding-top: 80px
+    background-color: gray;
+    background: url(../images/plane.jpg) no-repeat bottom center scroll;
+    padding-top: 80px;
 }
 
 .header {
     font-size: 300%;
-    background-color: blanchedalmond
+    background-color: gray
 }
 
 
@@ -24,5 +25,7 @@ body {
 }
 
 #myNav a:hover, a:active {
-    background-color: black;
+    background-color: rgb(197, 5, 5);
 }
+
+#myNav .navbar-toggler { color: white }
