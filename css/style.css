@@ -53,3 +53,23 @@ body, html {
 }
 
 #myNav .navbar-toggler { color: white }
+
+#cv{ margin-top: 80px; }
+
+.cv-sect { padding-left: 15%; padding-right: 15%; margin-bottom: 30px;}
+
+.cv-sect-title{ text-align: left; position: absolute; font-size: 170%; }
+
+.cv-sect-text{ 
+    margin: 0 0 0 250px; 
+    padding: 10px 0 0 0; 
+    text-align: left;
+}
+
+.cv-list{ list-style: none; }
+
+.loc { 
+    font-style: italic;
+    padding-left: 2em;
+    float:right;
+}
