@@ -16,6 +16,7 @@ body, html {
     background-size: cover;
     padding-top: 0;
     color: white;
+    font-size: 130%;
 }
 
 .header {
