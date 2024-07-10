@@ -13,12 +13,31 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
       <div class="container-xxl">
-        <a href="https://www.stephendove.com" class="navbar-brand">
+        <a href="/index.html" class="navbar-brand">
           <span class="fw-bold text-secondary">
             <i class="bi bi-person-fill"></i>
             Stephen Dove
           </span>
         </a>
+        <!-- Toggle Nav Button for Small Screens -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a href="#overview" class="nav-link">Overview</a>
+            </li>
+            <li class="nav-item">
+              <a href="#specs" class="nav-link">Specifications</a>
+            </li>
+            <li class="nav-item">
+              <a href="#logistics" class="nav-link">Logistics</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 
@@ -36,13 +55,13 @@
           </h5>
           <div class="col-md-6 text-center text-md-start mt-4">
             <p class="lead my-4 text-muted">The New Horizons space probe, launched in 2006, is known for its flyby of Pluto in 2015 recording the images and analysis that are used today. Like New Horizons, we will traverse our solar system, from our great giver of life to the most famous dwarf planet, on foot. The Planet Trek Dane County (PTDC) gives us a ~200 million to 1 scale of the solar system right here in (greater) Madison. Let’s tackle this trek one planet at a time!</p>
-            <h4>
+            <h2>
               <div class="text-muted text-center">Goals</div>
-            </h4>
-            <ol class="list-group list-group-numbered">
-              <li class="list-group-item">Run from the Sun (Monona Terrace) to Pluto (Mount Horeb) via relay</li>
-              <li class="list-group-item">Enjoy our accomplishment and each other’s company at Brix Cider (conveniently next to Pluto)</li>
-            </ol>
+            </h2>
+            <ul class="list-group">
+              <li class="text-dark list-group-item">Run from the Sun (Monona Terrace) to Pluto (Mount Horeb) via relay.</li>
+              <li class="list-group-item">Enjoy our accomplishment and each other’s company at Brix Cider.</li>
+            </ul>
           </div>
           <div class="col-md-6 text-center d-none d-md-block mt-4">
             <img src="/images/solar_system.jpeg" alt="solar system photo" class="img-fluid rounded shadow">
@@ -53,16 +72,16 @@
 
     <section id="specs" class="py-5">
       <div class="container-lg">
-        <div class="row justify-content-center">
-          <div class="col-lg-7 col-12 py-3">
-            <h1>
-              <div class="display-6 text-center">Specifications</div>
-            </h1>
+        <div class="row justify-content-between">
+          <h4>
+            <div class="display-4 text-center">Specifications</div>
+          </h4>
+          <div class="col-lg-6 col-12 py-3 text-center text-md-start">
             <p class="lead my-4 text-muted">Many of you may be able to run the whole thing (23-24 miles), but there is no shot that I can/want to do that. The plan is to relay legs where the handoff will be at a planet sign. For those of you that are familiar with the solar system, you are probably thinking that the distance between planets is not consistent. That is correct, we will need some ringers to take on the latter legs from Uranus to Neptune and Neptune to Pluto. </p>
             <p class="lead my-4 text-muted">I made <a href="https://www.google.com/maps/d/u/0/edit?mid=14U8yDoH_GjqDM6AMxsnHR6s0jAfoKN4&usp=sharing">this map</a> on Google Maps to give rough estimates of where everything is.</p>
-            <h4>
+            <h2>
               <div class="text-muted text-center">Planets and Locations</div>
-            </h4>
+            </h2>
             <ol class="list-group list-group-flush text-center">
               <li class="list-group-item">
                   <div class="fw-bold text-muted">Sun</div>
@@ -106,54 +125,125 @@
               </li>
             </ol>
           </div>
-          <div class="col-lg-5 col-12 py-3">
-            <h1>
-              <div class="display-6 text-center">Relay Legs</div>
-            </h1>
-            <p class="lead my-4 text-muted"></p>
-            <ol type="I" class="lead fw-bold text-center">
-              <li class="my-3">
-                Sun to Mars
-                <div class="fw-normal text-muted ps-3">
-                  <div>Distance: 1 Mile</div>
-                  <div>Athletes: Stephen, Liang Liang, and Owen</div>
-                  <div>Estimated Time: 8 Minutes</div>
+          <div class="col-lg-auto col-12 py-3">
+            <h2>
+              <div class="text-muted text-center">Relay Legs</div>
+            </h2>
+            <ul class="py-3 list-group text-center">
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Sun to Mars</div>
+                  Distance: 1 Mile<br/>
+                  Athletes: Stephen, Liang Liang, and Owen<br/>
+                  Estimated Time: 8 Minutes<br/>
                 </div>
               </li>
-              <li class="my-3">
-                Mars to Saturn
-                <div class="fw-normal text-muted ps-3">
-                  <div>Distance: 4 Miles</div>
-                  <div>Athletes: Tim and Partic</div>
-                  <div>Estimated Time: 32 Minutes</div>
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Mars to Saturn</div>
+                  Distance: 4 Miles<br/>
+                  Athletes: Tim and Partic<br/>
+                  Estimated Time: 32 Minutes<br/>
                 </div>
               </li>
-              <li class="my-3">
-                Saturn to Uranus
-                <div class="fw-normal text-muted ps-3">
-                  <div>Distance: 4 Miles</div>
-                  <div>Athletes: Maddy and Matt</div>
-                  <div>Estimated Time: 32 Minutes</div>
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Saturn to Uranus</div>
+                  Distance: 4 Miles<br/>
+                  Athletes: Maddy and Matt<br/>
+                  Estimated Time: 32 Minutes<br/>
                 </div>
               </li>
-              <li class="my-3">
-                Uranus to Neptune
-                <div class="fw-normal text-muted ps-3">
-                  <div>Distance: 6 Miles</div>
-                  <div>Athletes: Taylor and Zach</div>
-                  <div>Estimated Time: 48 Minutes</div>
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Uranus to Neptune</div>
+                  Distance: 6 Miles<br/>
+                  Athletes: Taylor and Zach<br/>
+                  Estimated Time: 48 Minutes<br/>
                 </div>
               </li>
-              <li class="my-3">
-                Neptune to Pluto
-                <div class="fw-normal text-muted ps-3">
-                  <div>Distance: 9 Miles</div>
-                  <div>Athletes: Brady</div>
-                  <div>Estimated Time: 60 Minutes</div>
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Neptune to Pluto</div>
+                  Distance: 9 Miles<br/>
+                  Athletes: Tim and Partic<br/>
+                  Estimated Time: 60 Minutes<br/>
                 </div>
               </li>
-            </ol>
+            </ul>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="logistics" class="bg-light py-5 mt-5">
+      <div class="container-lg">
+        <div class="row justify-content-between">
+          <h4>
+            <div class="display-4 text-center">Logistics</div>
+          </h4>
+          <div class="col-md-6 text-center text-md-start mt-4">
+            <h2>
+              <div class="text-muted">Date and Time</div>
+            </h2>
+            <p class="lead my-4 fw-bold text-muted">8a on Saturday, 7.20.2024 at the Dove Household (CWP)</p>
+            <p class="lead my-4 text-muted">I expect the full relay to take about 3 hours. Brix Cider opens at 11a on Saturdays so we can start anytime after 8a. We will start around 8:30a in case anyone decides to be a hero and run way faster than expected. </p>
+            <p class="lead my-4 text-muted">If you are not at CWP by the time we need to leave for your leg, we will have to leave without you (which would be a bummer). If you won’t be able to make it to CWP around 8a, let Stephen know and he can get an estimate for the time by which you would need to make it. </p>
+            <h2>
+              <div class="text-muted">Weather Policy</div>
+            </h2>
+            <p class="lead my-4 text-dark">We will play this by ear. A little rain never hurt anyone, but a lot of rain and/or lightning have hurt people. Cross your fingers that we don’t have to postpone.</p>
+          </div>
+          <div class="col-md-6 text-center text-md-start mt-4">
+            <h2>
+              <div class="text-muted">Getting to Your Relay Leg</div>
+            </h2>
+            <p class="lead my-4 text-dark">The plan is to drive folks from location to location. To be most efficient, homebase will be the Dove household (CWP). Please find your own way here.</p>
+            <ul class="py-3 list-group text-center">
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Stephen drops a car near Mars with Mars</div>
+                  Sun walks to Sun (Monona Terrace)<br/>
+                  Mars leaves from Mars and Stephen takes car back to CWP<br/>
+                </div>
+              </li>
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Taylor drives to Odana Hills GC and drops Saturn off</div>
+                  Saturn walks to Saturn (take a right down the bike path)<br/>
+                  Mars walks back to car and Taylor returns to CWP<br/>
+                </div>
+              </li>
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Stephen drives to Goose Lake and drops Uranus off</div>
+                  Uranus walks to Uranus (hop on the bike path and take a left)<br/>
+                  Saturn walks back to car and Stephen returns to CWP<br/>
+                </div>
+              </li>
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Liang Liang drives to Epic near Stable and drops Neptune off</div>
+                  Neptune walks to Neptune (take ramp down to bike path and take a right)<br/>
+                  Uranus walks back to car and Liang Liang drives to Brix with Uranus<br/>
+                </div>
+              </li>
+              <li class="py-3 list-group-item fw-normal text-muted">
+                <div>
+                  <div class="lead fw-bold">Stephen and spectators drive to Brix Cider</div>
+                  If anyone wants to come for the celebration at Brix Cider, they are more than welcome to join us!<br/>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-5">
+      <div class="container-lg">
+        <div class="row justify-content-center text-center text-muted fw-bold">
+          Questions? Please reach out to Stephen
         </div>
       </div>
     </section>
