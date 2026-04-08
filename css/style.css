@@ -18,8 +18,51 @@ body {
 
 .cv-list{ list-style: none; }
 
-.loc { 
+.loc {
     font-style: italic;
     padding-left: 2em;
     float:right;
+}
+
+/* music.html — Top 100 lists */
+.top-100-list {
+    list-style: none;
+    padding-left: 0;
+    counter-reset: top100;
+}
+
+.top-100-list li {
+    counter-increment: top100;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.top-100-list li::before {
+    content: counter(top100) ".";
+    min-width: 2.25rem;
+    text-align: right;
+    color: #6c757d;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.top-100-list li.empty-slot {
+    color: #adb5bd;
+}
+
+/* Toggle button label swap via aria-expanded */
+[aria-expanded="true"] .collapse-label-more { display: none; }
+[aria-expanded="true"] .collapse-label-less { display: inline; }
+[aria-expanded="false"] .collapse-label-more { display: inline; }
+[aria-expanded="false"] .collapse-label-less { display: none; }
+
+/* music.html — section scroll offset (main nav + sub-nav) */
+#album-of-the-week,
+#top-100-albums,
+#top-100-songs,
+#my-music {
+    scroll-margin-top: 110px;
 }
