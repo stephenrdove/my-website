@@ -59,6 +59,13 @@ body {
 [aria-expanded="false"] .collapse-label-more { display: inline; }
 [aria-expanded="false"] .collapse-label-less { display: none; }
 
+/* index.html — section scroll offset (main nav + sub-nav) */
+#about,
+#cv,
+#interests {
+    scroll-margin-top: 110px;
+}
+
 /* music.html — section scroll offset (main nav + sub-nav) */
 #album-of-the-week,
 #top-100-albums,
