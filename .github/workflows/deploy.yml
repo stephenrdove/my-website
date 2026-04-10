@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master          # production deploys
+      - astro_experiment # preview deploys while experimenting
+  workflow_dispatch:    # allow manual trigger from the Actions tab
+
+# Required permissions for the deploy-pages action
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment runs at a time; in-progress deploys are not cancelled
+# so a push mid-deploy doesn't leave the site in a broken state
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: astro_src/package-lock.json
+
+      - name: Install dependencies
+        working-directory: astro_src
+        run: npm ci
+
+      - name: Build
+        working-directory: astro_src
+        run: npm run build
+
+      # Uploads astro_src/dist/ as the artifact that the deploy job will publish
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: astro_src/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

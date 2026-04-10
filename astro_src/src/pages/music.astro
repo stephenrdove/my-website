@@ -1,0 +1,497 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Stephen Dove — Music"
+  description="Stephen Dove — music: original tracks on SoundCloud, Album of the Week, and top 100 albums and songs."
+  activeNav="music"
+>
+
+  <!-- ── Music Sub-Navigation (named slot → Layout) ─────────────────── -->
+  <nav
+    slot="subnav"
+    class="hidden md:block sticky top-14 z-40 bg-white border-b border-gray-200 py-2"
+  >
+    <div class="max-w-screen-lg mx-auto px-4">
+      <ul class="flex justify-center gap-1">
+        {[
+          { href: '#album-of-the-week', label: 'Album of the Week' },
+          { href: '#top-100-albums',    label: 'Top 100 Albums'    },
+          { href: '#top-100-songs',     label: 'Top 100 Songs'     },
+          { href: '#my-music',          label: 'My Music'          },
+        ].map(({ href, label }) => (
+          <li>
+            <a href={href} class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── Album of the Week ──────────────────────────────────────────── -->
+  <section id="album-of-the-week" class="bg-white py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">Album of the Week</h1>
+      <p class="text-center text-gray-500 mb-10">My pick of the week — a tradition I share with my team at work.</p>
+
+      <!-- Current pick -->
+      <div class="flex flex-col md:flex-row gap-8 items-start mb-12">
+
+        <!-- Spotify embed -->
+        <div class="w-full md:w-80 shrink-0">
+          <iframe
+            style="border-radius:12px"
+            src="https://open.spotify.com/embed/album/78fVrBMf6FqWT9d1siaFLn?utm_source=generator&theme=0"
+            width="100%"
+            height="352"
+            frameborder="0"
+            allowfullscreen
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          ></iframe>
+        </div>
+
+        <!-- Album details -->
+        <div class="flex-1">
+          <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mb-3">
+            Week of April 7, 2026
+          </span>
+          <h2 class="text-2xl font-bold text-gray-900 mb-1">For Posterity</h2>
+          <p class="text-lg text-gray-500 mb-4">Dryjacket</p>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            I first discovered Dryjacket when they opened for Aaron West and the Roaring Twenties
+            in Providence, RI — and I was hooked from the first song. Their blend of math-emo guitar
+            work and polished pop sensibilities hit me immediately in a live setting, and
+            <em>For Posterity</em> bottles that energy perfectly. The playful, clever lyrics paired
+            with laid-back vocals give the whole record a cool effortlessness that keeps it in
+            constant rotation. 33 minutes, 11 tracks — put it on, don't skip a thing.
+          </p>
+          <p class="text-sm text-gray-500 mb-1"><strong>Genre:</strong> Alternative / Indie Rock · Midwest Emo · Math Rock</p>
+          <p class="text-sm text-gray-500 mb-5"><strong>Year:</strong> 2017</p>
+          <a
+            href="https://open.spotify.com/album/78fVrBMf6FqWT9d1siaFLn"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500 text-white text-sm font-medium hover:bg-green-600 transition-colors"
+          >
+            <!-- Spotify icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.669 11.538a.5.5 0 0 1-.686.165c-1.879-1.147-4.243-1.407-7.028-.77a.499.499 0 0 1-.222-.973c3.048-.696 5.662-.397 7.77.892a.5.5 0 0 1 .166.686m.979-2.178a.624.624 0 0 1-.858.205c-2.15-1.321-5.428-1.704-7.972-.932a.625.625 0 0 1-.362-1.194c2.905-.881 6.517-.454 8.986 1.063a.624.624 0 0 1 .206.858m.084-2.268C10.154 5.56 5.9 5.419 3.438 6.166a.75.75 0 1 1-.434-1.432c2.825-.857 7.523-.692 10.492 1.07a.75.75 0 0 1-.764 1.288z"/>
+            </svg>
+            Open in Spotify
+          </a>
+        </div>
+      </div>
+
+      <!-- Past Picks — native <details> element, no JS needed -->
+      <!--
+        <details> / <summary> are built-in HTML collapse. The browser handles
+        open/close state. We style the chevron rotation via CSS in global.css.
+        The inner past picks also use <details> for individual album entries.
+      -->
+      <div class="max-w-2xl mx-auto">
+        <details class="group">
+          <summary class="flex items-center justify-between py-2 border-b border-gray-200 select-none">
+            <h3 class="text-lg font-semibold text-gray-700">Past Picks</h3>
+            <span class="flex items-center gap-1 text-sm text-gray-500 border border-gray-300 rounded px-2 py-1 hover:bg-gray-50 transition-colors">
+              <span class="group-open:hidden">Show archive</span>
+              <span class="hidden group-open:inline">Hide archive</span>
+              <svg class="chevron w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
+              </svg>
+            </span>
+          </summary>
+
+          <div class="mt-3 space-y-1">
+            <!-- Past pick entry — duplicate for each new week when archiving -->
+            <details class="border-b border-gray-100">
+              <summary class="flex items-center gap-3 py-2.5 hover:bg-gray-50 px-2 rounded transition-colors select-none">
+                <svg class="chevron w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
+                </svg>
+                <span class="text-sm text-gray-400 shrink-0">Mar 31, 2026</span>
+                <span class="font-semibold text-gray-800">Album Title</span>
+                <span class="text-gray-500">— Artist Name</span>
+              </summary>
+              <div class="px-2 pb-4 pt-2">
+                <div class="flex flex-col md:flex-row gap-4 items-start">
+                  <iframe
+                    style="border-radius:12px"
+                    src="https://open.spotify.com/embed/album/ALBUM_ID?utm_source=generator&theme=0"
+                    width="100%"
+                    height="152"
+                    frameborder="0"
+                    allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    class="md:w-64 shrink-0"
+                  ></iframe>
+                  <p class="text-sm text-gray-500 leading-relaxed">Notes about this album and why you chose it that week.</p>
+                </div>
+              </div>
+            </details>
+            <!-- /past pick entry -->
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Top 100 Albums ─────────────────────────────────────────────── -->
+  <section id="top-100-albums" class="bg-gray-50 py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">Top 100 Albums</h1>
+      <p class="text-center text-gray-500 mb-10">A work in progress — updated as I think harder about it.</p>
+
+      <!--
+        Two-column layout. Left col always shows 1-10; both 11-50 (left) and
+        51-100 (right) are hidden until the toggle button is clicked.
+
+        data-collapse-group ties the collapsible elements to the toggle button.
+        The vanilla JS at the bottom of this file handles the toggling.
+      -->
+      <div class="list-grid" data-grid="albums">
+
+        <!-- Left column: 1-10 always visible + 11-50 collapsible -->
+        <div>
+          <ol class="top-100-list mb-0">
+            <li><span class="font-semibold">August and Everything After</span><span class="text-gray-500 text-sm"> — Counting Crows</span></li>
+            <li><span class="font-semibold">Clarity</span><span class="text-gray-500 text-sm"> — Jimmy Eat World</span></li>
+            <li><span class="font-semibold">Hotel California</span><span class="text-gray-500 text-sm"> — Eagles</span></li>
+            <li><span class="font-semibold">Pinkerton</span><span class="text-gray-500 text-sm"> — Weezer</span></li>
+            <li><span class="font-semibold">The Black Parade</span><span class="text-gray-500 text-sm"> — My Chemical Romance</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+          </ol>
+          <div class="hidden" data-collapse-group="albums">
+            <ol class="top-100-list" style="counter-reset: top100 10;">
+              <li><span class="font-semibold">Supernatural</span><span class="text-gray-500 text-sm"> — Santana</span></li>
+              <li><span class="font-semibold">Licensed to Ill</span><span class="text-gray-500 text-sm"> — Beastie Boys</span></li>
+              <li><span class="font-semibold">Diary</span><span class="text-gray-500 text-sm"> — Sunny Day Real Estate</span></li>
+              <li><span class="font-semibold">Through Being Cool</span><span class="text-gray-500 text-sm"> — Saves the Day</span></li>
+              <li><span class="font-semibold">Dark Side of the Moon</span><span class="text-gray-500 text-sm"> — Pink Floyd</span></li>
+              <li><span class="font-semibold">Transatlanticism</span><span class="text-gray-500 text-sm"> — Death Cab for Cutie</span></li>
+              <li><span class="font-semibold">Good Apollo I'm Burning Star IV</span><span class="text-gray-500 text-sm"> — Coheed and Cambria</span></li>
+              <li><span class="font-semibold">Songs from the Big Chair</span><span class="text-gray-500 text-sm"> — Tears for Fears</span></li>
+              <li><span class="font-semibold">Pure Heroine</span><span class="text-gray-500 text-sm"> — Lorde</span></li>
+              <li><span class="font-semibold">Third Eye Blind</span><span class="text-gray-500 text-sm"> — Third Eye Blind</span></li>
+              <li><span class="font-semibold">Translating the Name</span><span class="text-gray-500 text-sm"> — Saosin</span></li>
+              <li><span class="font-semibold">Nearer My God</span><span class="text-gray-500 text-sm"> — Foxing</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li><span class="font-semibold">Harvest</span><span class="text-gray-500 text-sm"> — Neil Young</span></li>
+              <li><span class="font-semibold">Canyon Trilogy</span><span class="text-gray-500 text-sm"> — R. Carlos Nakai</span></li>
+              <li><span class="font-semibold">Wolfmother</span><span class="text-gray-500 text-sm"> — Wolfmother</span></li>
+              <li><span class="font-semibold">Blue Album</span><span class="text-gray-500 text-sm"> — Weezer</span></li>
+              <li><span class="font-semibold">The Wall</span><span class="text-gray-500 text-sm"> — Pink Floyd</span></li>
+              <li><span class="font-semibold">American Football</span><span class="text-gray-500 text-sm"> — American Football</span></li>
+              <li><span class="font-semibold">Speaking in Tongues</span><span class="text-gray-500 text-sm"> — Talking Heads</span></li>
+              <li><span class="font-semibold">There's Nothing Wrong With Love</span><span class="text-gray-500 text-sm"> — Built to Spill</span></li>
+              <li><span class="font-semibold">Home, Like NoPlace Is There</span><span class="text-gray-500 text-sm"> — The Hotelier</span></li>
+              <li><span class="font-semibold">Epiphany</span><span class="text-gray-500 text-sm"> — T-Pain</span></li>
+              <li><span class="font-semibold">Eloquent Disease</span><span class="text-gray-500 text-sm"> — Naked April</span></li>
+              <li><span class="font-semibold">Octavarium</span><span class="text-gray-500 text-sm"> — Dream Theater</span></li>
+              <li><span class="font-semibold">The Cars</span><span class="text-gray-500 text-sm"> — The Cars</span></li>
+              <li><span class="font-semibold">The Dream Is Over</span><span class="text-gray-500 text-sm"> — PUP</span></li>
+              <li><span class="font-semibold">Melodrama</span><span class="text-gray-500 text-sm"> — Lorde</span></li>
+              <li><span class="font-semibold">Carnavas</span><span class="text-gray-500 text-sm"> — Silversun Pickups</span></li>
+              <li><span class="font-semibold">Silent Alarm</span><span class="text-gray-500 text-sm"> — Bloc Party</span></li>
+              <li><span class="font-semibold">American Beauty</span><span class="text-gray-500 text-sm"> — Grateful Dead</span></li>
+              <li><span class="font-semibold">Waking the Fallen</span><span class="text-gray-500 text-sm"> — Avenged Sevenfold</span></li>
+              <li><span class="font-semibold">Mean Everything to Nothing</span><span class="text-gray-500 text-sm"> — Manchester Orchestra</span></li>
+              <li><span class="font-semibold">2001</span><span class="text-gray-500 text-sm"> — Dr. Dre</span></li>
+              <li><span class="font-semibold">Astro Lounge</span><span class="text-gray-500 text-sm"> — Smash Mouth</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Right column: 51-100 — entirely hidden until expanded -->
+        <div class="hidden" data-collapse-group="albums">
+          <ol class="top-100-list" style="counter-reset: top100 50;">
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Toggle button -->
+      <div class="flex justify-center mt-6">
+        <button
+          data-toggle-group="albums"
+          aria-expanded="false"
+          class="flex items-center gap-1.5 px-4 py-1.5 rounded border border-gray-300 text-sm text-gray-600 hover:bg-gray-100 transition-colors"
+        >
+          <span class="label-more">Show all 100</span>
+          <span class="label-less hidden">Show top 10</span>
+          <svg class="chevron w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Top 100 Songs ──────────────────────────────────────────────── -->
+  <section id="top-100-songs" class="bg-white py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">Top 100 Songs</h1>
+      <p class="text-center text-gray-500 mb-10">Another work in progress.</p>
+
+      <div class="list-grid" data-grid="songs">
+
+        <!-- Left column: 1-10 always visible + 11-50 collapsible -->
+        <div>
+          <ol class="top-100-list mb-0">
+            <li><span class="font-semibold">Seven Years</span><span class="text-gray-500 text-sm"> — Saosin</span></li>
+            <li><span class="font-semibold">Speak With The Dead</span><span class="text-gray-500 text-sm"> — Foxing</span></li>
+            <li><span class="font-semibold">Something in the Way She Moves</span><span class="text-gray-500 text-sm"> — James Taylor</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+          </ol>
+          <div class="hidden" data-collapse-group="songs">
+            <ol class="top-100-list" style="counter-reset: top100 10;">
+              <li><span class="font-semibold">Wasted Time</span><span class="text-gray-500 text-sm"> — Eagles</span></li>
+              <li><span class="font-semibold">Bridge Over Troubled Water</span><span class="text-gray-500 text-sm"> — Simon &amp; Garfunkel</span></li>
+              <li><span class="font-semibold">Box of Rain</span><span class="text-gray-500 text-sm"> — Grateful Dead</span></li>
+              <li><span class="font-semibold">Black</span><span class="text-gray-500 text-sm"> — Pearl Jam</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li><span class="font-semibold">Shake Me Down</span><span class="text-gray-500 text-sm"> — Cage the Elephant</span></li>
+              <li><span class="font-semibold">Tales</span><span class="text-gray-500 text-sm"> — Wolfmother</span></li>
+              <li><span class="font-semibold">Bell Bottom Blues</span><span class="text-gray-500 text-sm"> — Derek and the Dominoes</span></li>
+              <li><span class="font-semibold">Ribs</span><span class="text-gray-500 text-sm"> — Lorde</span></li>
+              <li><span class="font-semibold">Midnight Rider</span><span class="text-gray-500 text-sm"> — Allman Brothers Band</span></li>
+              <li><span class="font-semibold">Flux</span><span class="text-gray-500 text-sm"> — Bloc Party</span></li>
+              <li><span class="font-semibold">Sometime Around Midnight</span><span class="text-gray-500 text-sm"> — The Airborne Toxic Event</span></li>
+              <li><span class="font-semibold">Time</span><span class="text-gray-500 text-sm"> — Pink Floyd</span></li>
+              <li><span class="font-semibold">Stay (I Missed You)</span><span class="text-gray-500 text-sm"> — Lisa Loeb</span></li>
+              <li><span class="font-semibold">Can't Take My Eyes Off of You</span><span class="text-gray-500 text-sm"> — Frankie Valli</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+              <li class="empty-slot"><span>—</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Right column: 51-100 — entirely hidden until expanded -->
+        <div class="hidden" data-collapse-group="songs">
+          <ol class="top-100-list" style="counter-reset: top100 50;">
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+            <li class="empty-slot"><span>—</span></li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Toggle button -->
+      <div class="flex justify-center mt-6">
+        <button
+          data-toggle-group="songs"
+          aria-expanded="false"
+          class="flex items-center gap-1.5 px-4 py-1.5 rounded border border-gray-300 text-sm text-gray-600 hover:bg-gray-100 transition-colors"
+        >
+          <span class="label-more">Show all 100</span>
+          <span class="label-less hidden">Show top 10</span>
+          <svg class="chevron w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── My Music ───────────────────────────────────────────────────── -->
+  <section id="my-music" class="bg-gray-50 py-20 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">My Music</h1>
+      <p class="text-center text-gray-500 mb-10">Original tracks — find me on SoundCloud.</p>
+
+      <div class="flex justify-center">
+        <div class="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center gap-4 w-56">
+          <!-- Waveform / SoundCloud icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" fill="#f26f23" viewBox="0 0 16 16">
+            <path d="M8.5 2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5m-2 2a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5m4 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5m-6 1.5A.5.5 0 0 1 5 6v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m8 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m-10 1A.5.5 0 0 1 3 7v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5m12 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5"/>
+          </svg>
+          <h3 class="font-semibold text-gray-800">SoundCloud</h3>
+          <a
+            href="#"
+            class="px-5 py-2 rounded-lg text-sm font-medium transition-colors"
+            style="border: 1px solid #f26f23; color: #f26f23;"
+          >
+            Listen
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!--
+    Vanilla JS for the Top 100 expand/collapse toggles.
+    In Astro, <script> tags are bundled by Vite — they run in the browser
+    (unlike the frontmatter --- block which runs at build time).
+
+    The pattern:
+      - Collapsible elements have data-collapse-group="<name>"
+      - Toggle buttons have data-toggle-group="<name>"
+      - Clicking the button toggles "hidden" on all matching elements,
+        flips aria-expanded, and updates the label/chevron.
+  -->
+  <script>
+    document.querySelectorAll<HTMLButtonElement>('[data-toggle-group]').forEach(button => {
+      button.addEventListener('click', () => {
+        const group = button.dataset.toggleGroup!;
+        const targets = document.querySelectorAll<HTMLElement>(`[data-collapse-group="${group}"]`);
+        const grid = document.querySelector<HTMLElement>(`[data-grid="${group}"]`);
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+        targets.forEach(el => el.classList.toggle('hidden', isExpanded));
+        grid?.classList.toggle('expanded', !isExpanded);
+        button.setAttribute('aria-expanded', String(!isExpanded));
+
+        button.querySelector<HTMLElement>('.label-more')!.classList.toggle('hidden', !isExpanded);
+        button.querySelector<HTMLElement>('.label-less')!.classList.toggle('hidden', isExpanded);
+        button.querySelector<HTMLElement>('.chevron')!.style.transform = isExpanded ? '' : 'rotate(180deg)';
+      });
+    });
+  </script>
+
+</Layout>

@@ -1,0 +1,261 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Stephen Dove"
+  description="Stephen Dove — software developer specializing in data science and electronic health record systems. Based in Verona, WI."
+  activeNav="home"
+>
+
+  <!--
+    Named slot — injects the sub-nav into Layout's <slot name="subnav" />.
+    The Layout places this between the fixed main navbar and the page content,
+    then makes it sticky so it stays visible while scrolling.
+  -->
+  <nav
+    slot="subnav"
+    class="hidden md:block sticky top-14 z-40 bg-gray-50 border-b border-gray-200 py-2"
+  >
+    <div class="max-w-screen-xl mx-auto px-4">
+      <ul class="flex justify-center gap-1">
+        <li>
+          <a href="#about" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
+            About
+          </a>
+        </li>
+        <li>
+          <a href="#cv" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
+            CV
+          </a>
+        </li>
+        <li>
+          <a href="#interests" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
+            Interests
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── About ──────────────────────────────────────────────────────── -->
+  <!--
+    scroll-margin-top accounts for both navbars (56px main + 40px sub ≈ 110px).
+    Same technique as the Bootstrap version, just as a Tailwind arbitrary value.
+  -->
+  <section id="about" class="bg-gray-50 py-20 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto flex flex-col md:flex-row items-center gap-10">
+
+      <!-- Text -->
+      <div class="flex-1 text-center md:text-left">
+        <h1 class="text-5xl font-bold text-gray-800 mb-6">Stephen Dove</h1>
+        <p class="text-lg text-gray-500 leading-relaxed">
+          Hello, my name is Stephen Dove and I am a software developer focusing on data science
+          in the healthcare industry. My professional experience has largely involved working with
+          electronic health record (EHR) data at Epic Systems in Verona, WI and Lifespan in
+          Providence, RI. I am a proud husband and father, an avid skier and musician, and a
+          serial hobbyist (much to my wife's chagrin). If you would like more information, please
+          check out my CV and/or shoot me an email:
+          <a href="mailto:me@stephendove.com" class="text-blue-600 hover:underline">me at stephendove dot com</a>.
+        </p>
+      </div>
+
+      <!-- Photo — hidden on mobile -->
+      <div class="hidden md:block flex-1">
+        <img
+          src="/images/fam.jpg"
+          alt="family photo"
+          class="w-full rounded-lg shadow-md"
+        />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── CV / Résumé ────────────────────────────────────────────────── -->
+  <section id="cv" class="bg-white py-20 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">Résumé</h1>
+
+      <!-- Education heading -->
+      <div class="flex items-center gap-3 mb-2">
+        <!-- Book icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-gray-700 shrink-0" viewBox="0 0 16 16">
+          <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+        </svg>
+        <h2 class="text-2xl font-semibold text-gray-700">Education</h2>
+      </div>
+
+      <!-- Brown -->
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8 mb-4 pl-9">
+        <div>
+          <p class="font-bold text-gray-800">Brown University</p>
+          <p class="text-gray-500">Sc.M. Computer Science</p>
+        </div>
+        <div class="text-right">
+          <p class="text-gray-500">Aug 2017 – Dec 2018</p>
+          <p class="text-gray-400 italic">Providence, RI</p>
+        </div>
+      </div>
+
+      <!-- Boston College -->
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8 mb-12 pl-9">
+        <div>
+          <p class="font-bold text-gray-800">Boston College</p>
+          <p class="text-gray-500">B.S. Physics</p>
+        </div>
+        <div class="text-right">
+          <p class="text-gray-500">Aug 2011 – May 2015</p>
+          <p class="text-gray-400 italic">Chestnut Hill, MA</p>
+        </div>
+      </div>
+
+      <!-- Work Experience heading -->
+      <div class="flex items-center gap-3 mb-2">
+        <!-- Building icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-gray-700 shrink-0" viewBox="0 0 16 16">
+          <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+          <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
+        </svg>
+        <h2 class="text-2xl font-semibold text-gray-700">Work Experience</h2>
+      </div>
+
+      <!-- Epic Systems (current) -->
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8 mb-4 pl-9">
+        <div>
+          <p class="font-bold text-gray-800">Epic Systems</p>
+          <p class="text-gray-500">Software Developer</p>
+        </div>
+        <div class="text-right">
+          <p class="text-gray-500">Feb 2019 – Present</p>
+          <p class="text-gray-400 italic">Verona, WI</p>
+        </div>
+      </div>
+
+      <!-- Lifespan -->
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8 mb-4 pl-9">
+        <div>
+          <p class="font-bold text-gray-800">Lifespan Corporation</p>
+          <p class="text-gray-500">Research Data Analyst</p>
+        </div>
+        <div class="text-right">
+          <p class="text-gray-500">May 2018 – Dec 2018</p>
+          <p class="text-gray-400 italic">Providence, RI</p>
+        </div>
+      </div>
+
+      <!-- Epic Systems (early) -->
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8 pl-9">
+        <div>
+          <p class="font-bold text-gray-800">Epic Systems</p>
+          <p class="text-gray-500">Technical Services</p>
+        </div>
+        <div class="text-right">
+          <p class="text-gray-500">Aug 2015 – Aug 2017</p>
+          <p class="text-gray-400 italic">Verona, WI</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Interests ──────────────────────────────────────────────────── -->
+  <section id="interests" class="bg-gray-50 py-20 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">Interests</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Skiing -->
+        <div class="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
+          <h3 class="text-xl font-semibold text-gray-800">Skiing</h3>
+          <p class="text-gray-500">Mountains, speed, and cold air.</p>
+          <!-- Snowflake icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="text-blue-500 my-2" viewBox="0 0 16 16">
+            <path d="M8 16a.5.5 0 0 1-.5-.5v-1.293l-.646.647a.5.5 0 0 1-.707-.708L7.5 12.793V8.866l-3.4 1.963-.496 1.85a.5.5 0 1 1-.966-.26l.237-.882-1.12.646a.5.5 0 0 1-.5-.866l1.12-.646-.882-.237a.5.5 0 1 1 .26-.966l1.85.496L7 8 3.6 6.037l-1.85.496a.5.5 0 0 1-.26-.966l.882-.237-1.12-.646a.5.5 0 1 1 .5-.866l1.12.646-.237-.882a.5.5 0 1 1 .966-.26l.496 1.85L7.5 7.134V3.207L6.147 1.854a.5.5 0 1 1 .707-.708l.646.647V.5a.5.5 0 1 1 1 0v1.293l.647-.647a.5.5 0 1 1 .707.708L8.5 3.207v3.927l3.4-1.963.496-1.85a.5.5 0 1 1 .966.26l-.236.882 1.12-.646a.5.5 0 0 1 .5.866l-1.12.646.882.237a.5.5 0 1 1-.26.966l-1.85-.496L9 8l3.4 1.963 1.85-.496a.5.5 0 1 1 .26.966l-.882.237 1.12.646a.5.5 0 0 1-.5.866l-1.12-.646.236.882a.5.5 0 1 1-.966.26l-.496-1.85-3.4-1.963v3.927l1.353 1.353a.5.5 0 0 1-.707.708l-.647-.647V15.5a.5.5 0 0 1-.5.5"/>
+          </svg>
+          <p class="text-sm text-gray-400 hidden lg:block">
+            More coming soon.
+          </p>
+          <button
+            onclick="document.getElementById('wip-dialog').showModal()"
+            class="mt-2 px-5 py-2 rounded-lg border border-blue-500 text-blue-600 text-sm font-medium hover:bg-blue-50 transition-colors"
+          >
+            See More
+          </button>
+        </div>
+
+        <!-- Music -->
+        <div class="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
+          <h3 class="text-xl font-semibold text-gray-800">Music</h3>
+          <p class="text-gray-500">Musician &amp; listener.</p>
+          <!-- Music note icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="text-blue-500 my-2" viewBox="0 0 16 16">
+            <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13s1.12-2 2.5-2 2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2"/>
+            <path fill-rule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z"/>
+            <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4z"/>
+          </svg>
+          <p class="text-sm text-gray-400 hidden lg:block">
+            Original music, album recommendations, and curated lists.
+          </p>
+          <a
+            href="/music"
+            class="mt-2 px-5 py-2 rounded-lg border border-blue-500 text-blue-600 text-sm font-medium hover:bg-blue-50 transition-colors"
+          >
+            See More
+          </a>
+        </div>
+
+        <!-- Travel -->
+        <div class="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
+          <h3 class="text-xl font-semibold text-gray-800">Travel</h3>
+          <p class="text-gray-500">Always planning the next trip.</p>
+          <!-- Luggage icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="text-blue-500 my-2" viewBox="0 0 16 16">
+            <path d="M7 1.5a1 1 0 0 0-1 1H3.5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1H4v.5a.5.5 0 0 0 1 0V13h6v.5a.5.5 0 0 0 1 0V13h.5a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1zm0 1h2a.5.5 0 0 1 0 1H7a.5.5 0 0 1 0-1M4 4h8v1.5H4zm0 2.5h8v5H4z"/>
+          </svg>
+          <p class="text-sm text-gray-400 hidden lg:block">
+            More coming soon.
+          </p>
+          <button
+            onclick="document.getElementById('wip-dialog').showModal()"
+            class="mt-2 px-5 py-2 rounded-lg border border-blue-500 text-blue-600 text-sm font-medium hover:bg-blue-50 transition-colors"
+          >
+            See More
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--
+    Native <dialog> element — no JS library needed.
+    showModal() / close() are built-in browser APIs.
+    The ::backdrop pseudo-element handles the overlay.
+  -->
+  <dialog
+    id="wip-dialog"
+    class="rounded-xl shadow-xl p-0 w-full max-w-md backdrop:bg-black/50"
+  >
+    <div class="p-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-3">Still in Progress</h2>
+      <p class="text-gray-500 text-sm leading-relaxed">
+        Thank you for your interest in my interests, but this is currently empty.
+        Please come back soon* to see how I spend my time.
+      </p>
+    </div>
+    <div class="border-t border-gray-100 px-6 py-3 flex justify-between items-center">
+      <span class="text-xs text-gray-400">*soon is relative</span>
+      <button
+        onclick="document.getElementById('wip-dialog').close()"
+        class="px-4 py-1.5 rounded-lg bg-gray-100 text-gray-600 text-sm font-medium hover:bg-gray-200 transition-colors"
+      >
+        Close
+      </button>
+    </div>
+  </dialog>
+
+</Layout>
