@@ -1,0 +1,287 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+/**
+ * State data — add your notes for each state here.
+ * Photos array is ready for when you want to add images later.
+ */
+const stateData: Record<string, { name: string; notes: string; photos: string[] }> = {
+  AL: { name: 'Alabama',        notes: '', photos: [] },
+  AK: { name: 'Alaska',         notes: '', photos: [] },
+  AZ: { name: 'Arizona',        notes: '', photos: [] },
+  AR: { name: 'Arkansas',       notes: '', photos: [] },
+  CA: { name: 'California',     notes: '', photos: [] },
+  CO: { name: 'Colorado',       notes: '', photos: [] },
+  CT: { name: 'Connecticut',    notes: '', photos: [] },
+  DE: { name: 'Delaware',       notes: '', photos: [] },
+  FL: { name: 'Florida',        notes: '', photos: [] },
+  GA: { name: 'Georgia',        notes: '', photos: [] },
+  HI: { name: 'Hawaii',         notes: '', photos: [] },
+  ID: { name: 'Idaho',          notes: '', photos: [] },
+  IL: { name: 'Illinois',       notes: '', photos: [] },
+  IN: { name: 'Indiana',        notes: '', photos: [] },
+  IA: { name: 'Iowa',           notes: '', photos: [] },
+  KS: { name: 'Kansas',         notes: '', photos: [] },
+  KY: { name: 'Kentucky',       notes: '', photos: [] },
+  LA: { name: 'Louisiana',      notes: '', photos: [] },
+  ME: { name: 'Maine',          notes: '', photos: [] },
+  MD: { name: 'Maryland',       notes: '', photos: [] },
+  MA: { name: 'Massachusetts',  notes: '', photos: [] },
+  MI: { name: 'Michigan',       notes: '', photos: [] },
+  MN: { name: 'Minnesota',      notes: '', photos: [] },
+  MS: { name: 'Mississippi',    notes: '', photos: [] },
+  MO: { name: 'Missouri',       notes: '', photos: [] },
+  MT: { name: 'Montana',        notes: '', photos: [] },
+  NE: { name: 'Nebraska',       notes: '', photos: [] },
+  NV: { name: 'Nevada',         notes: '', photos: [] },
+  NH: { name: 'New Hampshire',  notes: '', photos: [] },
+  NJ: { name: 'New Jersey',     notes: '', photos: [] },
+  NM: { name: 'New Mexico',     notes: '', photos: [] },
+  NY: { name: 'New York',       notes: '', photos: [] },
+  NC: { name: 'North Carolina', notes: '', photos: [] },
+  ND: { name: 'North Dakota',   notes: '', photos: [] },
+  OH: { name: 'Ohio',           notes: '', photos: [] },
+  OK: { name: 'Oklahoma',       notes: '', photos: [] },
+  OR: { name: 'Oregon',         notes: '', photos: [] },
+  PA: { name: 'Pennsylvania',   notes: '', photos: [] },
+  RI: { name: 'Rhode Island',   notes: 'Brown University for grad school. Also worked at Lifespan. Great food, walkable city, love Providence.', photos: [] },
+  SC: { name: 'South Carolina', notes: '', photos: [] },
+  SD: { name: 'South Dakota',   notes: '', photos: [] },
+  TN: { name: 'Tennessee',      notes: '', photos: [] },
+  TX: { name: 'Texas',          notes: '', photos: [] },
+  UT: { name: 'Utah',           notes: '', photos: [] },
+  VT: { name: 'Vermont',        notes: '', photos: [] },
+  VA: { name: 'Virginia',       notes: '', photos: [] },
+  WA: { name: 'Washington',     notes: '', photos: [] },
+  WV: { name: 'West Virginia',  notes: '', photos: [] },
+  WI: { name: 'Wisconsin',      notes: 'Home base. Epic Systems in Verona. Great lakes, great cheese, brutal winters.', photos: [] },
+  WY: { name: 'Wyoming',        notes: '', photos: [] },
+};
+
+// FIPS code → state abbreviation (used to look up stateData from D3's TopoJSON)
+const fipsToAbbr: Record<string, string> = {
+  '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT',
+  '10':'DE','12':'FL','13':'GA','15':'HI','16':'ID','17':'IL','18':'IN',
+  '19':'IA','20':'KS','21':'KY','22':'LA','23':'ME','24':'MD','25':'MA',
+  '26':'MI','27':'MN','28':'MS','29':'MO','30':'MT','31':'NE','32':'NV',
+  '33':'NH','34':'NJ','35':'NM','36':'NY','37':'NC','38':'ND','39':'OH',
+  '40':'OK','41':'OR','42':'PA','44':'RI','45':'SC','46':'SD','47':'TN',
+  '48':'TX','49':'UT','50':'VT','51':'VA','53':'WA','54':'WV','55':'WI',
+  '56':'WY',
+};
+---
+
+<Layout
+  title="Stephen Dove — Travel"
+  description="Stephen Dove — travel across the US."
+  activeNav="travel"
+>
+
+  <!-- Sub-nav -->
+  <nav slot="subnav" class="hidden md:block sticky top-14 z-40 bg-gray-50 border-b border-gray-200 py-2">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <ul class="flex justify-center gap-1">
+        <li>
+          <a href="/#about" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">About</a>
+        </li>
+        <li>
+          <a href="/#cv" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">CV</a>
+        </li>
+        <li>
+          <a href="/#interests" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">Interests</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">Travel</h1>
+      <p class="text-center text-gray-500 mb-10">Hover a state to see its name. Click for details.</p>
+
+      <!-- Map + panel wrapper -->
+      <div class="relative">
+
+        <!-- D3 renders the SVG into this div.
+             State data is passed via data attributes — Astro auto-escapes
+             the JSON so it's safe to embed in an HTML attribute. -->
+        <div
+          id="map-container"
+          class="w-full"
+          data-states={JSON.stringify(stateData)}
+          data-fips={JSON.stringify(fipsToAbbr)}
+        ></div>
+
+        <!-- Tooltip — follows the cursor, shown on state hover -->
+        <div
+          id="map-tooltip"
+          class="fixed z-50 pointer-events-none hidden bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-lg shadow-lg"
+        ></div>
+
+        <!-- Side panel — slides in from the right on state click -->
+        <div
+          id="state-panel"
+          class="fixed top-14 right-0 h-[calc(100vh-56px)] w-80 bg-white shadow-2xl border-l border-gray-200 translate-x-full transition-transform duration-300 ease-in-out z-40 flex flex-col"
+        >
+          <div class="flex items-center justify-between p-5 border-b border-gray-100">
+            <h2 id="panel-state-name" class="text-xl font-bold text-gray-800"></h2>
+            <button
+              id="panel-close"
+              aria-label="Close panel"
+              class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <div class="flex-1 overflow-y-auto p-5">
+            <p id="panel-notes" class="text-gray-600 text-sm leading-relaxed"></p>
+            <p id="panel-empty" class="text-gray-400 text-sm italic hidden">No notes yet for this state.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    /**
+     * D3 US map — rendered client-side.
+     *
+     * d3-geo provides:
+     *   - geoAlbersUsa(): a composite projection that places Alaska (scaled)
+     *     and Hawaii as insets bottom-left, matching every standard US map.
+     *   - geoPath(): converts GeoJSON feature objects to SVG path strings.
+     *
+     * topojson-client converts the compact TopoJSON format from us-atlas into
+     * standard GeoJSON that D3 can work with.
+     *
+     * State data is read from data attributes on the map container, which
+     * Astro serializes safely at build time.
+     */
+    import * as d3 from 'd3';
+    import * as topojson from 'topojson-client';
+    // @ts-ignore — us-atlas ships a JSON file without types
+    import us from 'us-atlas/states-10m.json';
+
+    // Read data from the container's data attributes (set by Astro at build time)
+    const container  = document.getElementById('map-container')!;
+    const stateData  = JSON.parse(container.dataset.states!);
+    const fipsToAbbr = JSON.parse(container.dataset.fips!);
+
+    // ── Build the map ──────────────────────────────────────────────────
+
+    const tooltip    = document.getElementById('map-tooltip')!;
+    const panel      = document.getElementById('state-panel')!;
+    const panelName  = document.getElementById('panel-state-name')!;
+    const panelNotes = document.getElementById('panel-notes')!;
+    const panelEmpty = document.getElementById('panel-empty')!;
+    const panelClose = document.getElementById('panel-close')!;
+
+    // Responsive: fit the projection to the container width.
+    // Fall back to 800 if clientWidth is 0 (shouldn't happen but safe).
+    const width  = container.clientWidth || 800;
+    const height = Math.round(width * 0.625); // standard Albers USA aspect ratio
+
+    const usGeo = us as unknown as Topology;
+    const states = topojson.feature(usGeo, usGeo.objects.states as any) as any;
+    const mesh   = topojson.mesh(usGeo, usGeo.objects.states as any, (a, b) => a !== b);
+
+    const projection = d3.geoAlbersUsa().fitSize([width, height], states);
+    const path       = d3.geoPath().projection(projection);
+
+    const svg = d3.select('#map-container')
+      .append('svg')
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
+      .style('width', '100%')
+      .style('height', 'auto');
+
+    // State fills
+    svg.selectAll('path.state')
+      .data(states.features)
+      .join('path')
+        .attr('class', 'state')
+        .attr('d', path as any)
+        .attr('fill', '#93c5fd')       // blue-300
+        .attr('stroke', 'none')
+        .style('cursor', 'pointer')
+        .style('transition', 'fill 0.15s')
+      .on('mouseover', function (event, d: any) {
+        const abbr  = fipsToAbbr[String(d.id).padStart(2, '0')];
+        const state = stateData[abbr];
+        if (!state) return;
+
+        d3.select(this).attr('fill', '#3b82f6'); // blue-500 on hover
+
+        tooltip.textContent = state.name;
+        tooltip.classList.remove('hidden');
+      })
+      .on('mousemove', function (event: MouseEvent) {
+        tooltip.style.left = `${event.clientX + 12}px`;
+        tooltip.style.top  = `${event.clientY - 28}px`;
+      })
+      .on('mouseout', function () {
+        d3.select(this).attr('fill', function(d: any) {
+          const abbr = fipsToAbbr[String((d as any).id).padStart(2, '0')];
+          return selectedAbbr === abbr ? '#2563eb' : '#93c5fd'; // keep selected blue
+        });
+        tooltip.classList.add('hidden');
+      })
+      .on('click', function (_event: MouseEvent, d: any) {
+        const abbr  = fipsToAbbr[String(d.id).padStart(2, '0')];
+        const state = stateData[abbr];
+        if (!state) return;
+
+        // Reset previous selection
+        svg.selectAll('path.state').attr('fill', '#93c5fd');
+        // Highlight selected
+        d3.select(this).attr('fill', '#2563eb'); // blue-600
+        selectedAbbr = abbr;
+
+        openPanel(state.name, state.notes);
+      });
+
+    // State borders (drawn as a mesh so interior borders don't double-stroke)
+    svg.append('path')
+      .datum(mesh)
+      .attr('d', path as any)
+      .attr('fill', 'none')
+      .attr('stroke', 'white')
+      .attr('stroke-width', 0.5);
+
+    // ── Panel ──────────────────────────────────────────────────────────
+
+    let selectedAbbr = '';
+
+    function openPanel(name: string, notes: string) {
+      panelName.textContent  = name;
+      panelNotes.textContent = notes;
+
+      if (notes) {
+        panelNotes.classList.remove('hidden');
+        panelEmpty.classList.add('hidden');
+      } else {
+        panelNotes.classList.add('hidden');
+        panelEmpty.classList.remove('hidden');
+      }
+
+      panel.classList.remove('translate-x-full');
+    }
+
+    function closePanel() {
+      panel.classList.add('translate-x-full');
+      svg.selectAll('path.state').attr('fill', '#93c5fd');
+      selectedAbbr = '';
+    }
+
+    panelClose.addEventListener('click', closePanel);
+
+    // Close panel on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePanel();
+    });
+  </script>
+
+</Layout>

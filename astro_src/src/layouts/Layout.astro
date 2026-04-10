@@ -15,7 +15,7 @@
 interface Props {
   title: string;
   description?: string;
-  activeNav?: 'home' | 'music';
+  activeNav?: 'home' | 'music' | 'travel';
 }
 
 const {
@@ -33,7 +33,7 @@ import '../styles/global.css';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
 
@@ -101,6 +101,17 @@ import '../styles/global.css';
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}
             >
               Music
+            </a>
+          </li>
+          <li>
+            <a
+              href="/travel"
+              class={`block px-3 py-1.5 rounded text-sm font-medium transition-colors
+                ${activeNav === 'travel'
+                  ? 'text-gray-900 bg-gray-200'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}
+            >
+              Travel
             </a>
           </li>
           <li>
