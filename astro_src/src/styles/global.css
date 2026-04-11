@@ -45,11 +45,16 @@
 }
 .list-grid.expanded {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 1.5rem;
 }
 .list-grid.expanded > *:first-child {
   max-width: none;
+}
+@media (min-width: 768px) {
+  .list-grid.expanded {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* details/summary — rotate the chevron when open */

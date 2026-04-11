@@ -1,5 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { albums } from '../data/aotw';
+
+// Determine current and past picks at build time.
+// "current" = the most recent entry whose weekOf is on or before today.
+const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+const sorted = [...albums].sort((a, b) => b.weekOf.localeCompare(a.weekOf));
+const currentIdx = sorted.findIndex(a => a.weekOf <= today);
+const current = currentIdx >= 0 ? sorted[currentIdx] : sorted[sorted.length - 1];
+const pastPicks = currentIdx >= 0 ? sorted.slice(currentIdx + 1) : [];
+
+// Format "2026-04-07" → "April 7, 2026"
+function formatLong(dateStr: string): string {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('en-US', {
+    month: 'long', day: 'numeric', year: 'numeric',
+  });
+}
+
+// Format "2026-04-07" → "Apr 7, 2026"
+function formatShort(dateStr: string): string {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+  });
+}
 ---
 
 <Layout
@@ -45,7 +70,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="w-full md:w-80 shrink-0">
           <iframe
             style="border-radius:12px"
-            src="https://open.spotify.com/embed/album/78fVrBMf6FqWT9d1siaFLn?utm_source=generator&theme=0"
+            src={`https://open.spotify.com/embed/album/${current.spotifyId}?utm_source=generator&theme=0`}
             width="100%"
             height="352"
             frameborder="0"
@@ -58,22 +83,15 @@ import Layout from '../layouts/Layout.astro';
         <!-- Album details -->
         <div class="flex-1">
           <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full mb-3">
-            Week of April 7, 2026
+            Week of {formatLong(current.weekOf)}
           </span>
-          <h2 class="text-2xl font-bold text-gray-900 mb-1">For Posterity</h2>
-          <p class="text-lg text-gray-500 mb-4">Dryjacket</p>
-          <p class="text-gray-600 leading-relaxed mb-4">
-            I first discovered Dryjacket when they opened for Aaron West and the Roaring Twenties
-            in Providence, RI — and I was hooked from the first song. Their blend of math-emo guitar
-            work and polished pop sensibilities hit me immediately in a live setting, and
-            <em>For Posterity</em> bottles that energy perfectly. The playful, clever lyrics paired
-            with laid-back vocals give the whole record a cool effortlessness that keeps it in
-            constant rotation. 33 minutes, 11 tracks — put it on, don't skip a thing.
-          </p>
-          <p class="text-sm text-gray-500 mb-1"><strong>Genre:</strong> Alternative / Indie Rock · Midwest Emo · Math Rock</p>
-          <p class="text-sm text-gray-500 mb-5"><strong>Year:</strong> 2017</p>
+          <h2 class="text-2xl font-bold text-gray-900 mb-1">{current.title}</h2>
+          <p class="text-lg text-gray-500 mb-4">{current.artist}</p>
+          <p class="text-gray-600 leading-relaxed mb-4" set:html={current.description} />
+          <p class="text-sm text-gray-500 mb-1"><strong>Genre:</strong> {current.genre}</p>
+          <p class="text-sm text-gray-500 mb-5"><strong>Year:</strong> {current.year}</p>
           <a
-            href="https://open.spotify.com/album/78fVrBMf6FqWT9d1siaFLn"
+            href={`https://open.spotify.com/album/${current.spotifyId}`}
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500 text-white text-sm font-medium hover:bg-green-600 transition-colors"
@@ -87,57 +105,54 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <!-- Past Picks — native <details> element, no JS needed -->
-      <!--
-        <details> / <summary> are built-in HTML collapse. The browser handles
-        open/close state. We style the chevron rotation via CSS in global.css.
-        The inner past picks also use <details> for individual album entries.
-      -->
-      <div class="max-w-2xl mx-auto">
-        <details class="group">
-          <summary class="flex items-center justify-between py-2 border-b border-gray-200 select-none">
-            <h3 class="text-lg font-semibold text-gray-700">Past Picks</h3>
-            <span class="flex items-center gap-1 text-sm text-gray-500 border border-gray-300 rounded px-2 py-1 hover:bg-gray-50 transition-colors">
-              <span class="group-open:hidden">Show archive</span>
-              <span class="hidden group-open:inline">Hide archive</span>
-              <svg class="chevron w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
-              </svg>
-            </span>
-          </summary>
-
-          <div class="mt-3 space-y-1">
-            <!-- Past pick entry — duplicate for each new week when archiving -->
-            <details class="border-b border-gray-100">
-              <summary class="flex items-center gap-3 py-2.5 hover:bg-gray-50 px-2 rounded transition-colors select-none">
-                <svg class="chevron w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <!-- Past Picks -->
+      {pastPicks.length > 0 && (
+        <div class="max-w-2xl mx-auto">
+          <details class="group">
+            <summary class="flex items-center justify-between py-2 border-b border-gray-200 select-none">
+              <h3 class="text-lg font-semibold text-gray-700">Past Picks</h3>
+              <span class="flex items-center gap-1 text-sm text-gray-500 border border-gray-300 rounded px-2 py-1 hover:bg-gray-50 transition-colors">
+                <span class="group-open:hidden">Show archive</span>
+                <span class="hidden group-open:inline">Hide archive</span>
+                <svg class="chevron w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
                 </svg>
-                <span class="text-sm text-gray-400 shrink-0">Mar 31, 2026</span>
-                <span class="font-semibold text-gray-800">Album Title</span>
-                <span class="text-gray-500">— Artist Name</span>
-              </summary>
-              <div class="px-2 pb-4 pt-2">
-                <div class="flex flex-col md:flex-row gap-4 items-start">
-                  <iframe
-                    style="border-radius:12px"
-                    src="https://open.spotify.com/embed/album/ALBUM_ID?utm_source=generator&theme=0"
-                    width="100%"
-                    height="152"
-                    frameborder="0"
-                    allowfullscreen
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
-                    class="md:w-64 shrink-0"
-                  ></iframe>
-                  <p class="text-sm text-gray-500 leading-relaxed">Notes about this album and why you chose it that week.</p>
-                </div>
-              </div>
-            </details>
-            <!-- /past pick entry -->
-          </div>
-        </details>
-      </div>
+              </span>
+            </summary>
+
+            <div class="mt-3 space-y-1">
+              {pastPicks.map(album => (
+                <details class="border-b border-gray-100">
+                  <summary class="flex items-center gap-3 py-2.5 hover:bg-gray-50 px-2 rounded transition-colors select-none">
+                    <svg class="chevron w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
+                    </svg>
+                    <span class="text-sm text-gray-400 shrink-0">{formatShort(album.weekOf)}</span>
+                    <span class="font-semibold text-gray-800">{album.title}</span>
+                    <span class="text-gray-500">— {album.artist}</span>
+                  </summary>
+                  <div class="px-2 pb-4 pt-2">
+                    <div class="flex flex-col md:flex-row gap-4 items-start">
+                      <iframe
+                        style="border-radius:12px"
+                        src={`https://open.spotify.com/embed/album/${album.spotifyId}?utm_source=generator&theme=0`}
+                        width="100%"
+                        height="152"
+                        frameborder="0"
+                        allowfullscreen
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy"
+                        class="md:w-64 shrink-0"
+                      ></iframe>
+                      <p class="text-sm text-gray-500 leading-relaxed" set:html={album.description} />
+                    </div>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </details>
+        </div>
+      )}
 
     </div>
   </section>

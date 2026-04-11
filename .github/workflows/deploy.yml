@@ -6,6 +6,8 @@ on:
       - master          # production deploys
       - astro_experiment # preview deploys while experimenting
   workflow_dispatch:    # allow manual trigger from the Actions tab
+  schedule:
+    - cron: '0 13 * * 1'   # every Monday at 8am ET (13:00 UTC)
 
 # Required permissions for the deploy-pages action
 permissions:
