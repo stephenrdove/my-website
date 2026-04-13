@@ -26,6 +26,7 @@ interface CardInput {
 
 const ALLOWED_ORIGINS = [
   'https://stephendove.com',
+  'https://www.stephendove.com',
   'http://localhost:5173',
   'http://localhost:4321',
 ];
