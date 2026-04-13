@@ -2,48 +2,84 @@
 
 ## Project Overview
 
-Personal portfolio website for Stephen Dove, hosted on GitHub Pages at `stephendove.com`. Static HTML/CSS site — no build step, no package manager, no compilation.
+Personal portfolio website for Stephen Dove, hosted on GitHub Pages at `stephendove.com`. Built with Astro + Tailwind. Deployed automatically on push to `master` and on a Monday morning cron.
 
 ## Tech Stack
 
-- **HTML/CSS** — plain static files
-- **Bootstrap 5.3.3** — primary CSS framework (CDN-hosted)
-- **Bootstrap Icons 1.11.3** — icon library (CDN-hosted)
-- **Vanilla JavaScript** — Bootstrap's bundle.min.js for interactivity (modals, navbar)
-- **Custom CSS** — minimal overrides in `/css/style.css`
+- **Main site:** Astro 6 + Tailwind CSS 4, built from `site/`
+- **Tarot app:** Vite + React, built from `tarot/app/`, deployed to `/tarot/`
+- **Tarot worker:** Cloudflare Worker (`tarot/worker/`), deployed separately via `wrangler deploy`
+- **Hosting:** GitHub Pages (main site + tarot app together), Cloudflare Workers (tarot backend)
 
 ## Project Structure
 
 ```
 stephendove_site/
-├── index.html          # Main homepage (About, CV, Interests sections)
-├── cv.html             # Legacy résumé page (Bootstrap 4, not linked from nav)
-├── add.html            # Interests stub page
-├── 404.html            # Custom error page
-├── CNAME               # Custom domain: stephendove.com
-├── css/
-│   └── style.css       # Minimal custom styles (~25 lines)
-├── images/             # Static image assets + favicons
-└── new_horizons/       # Sub-site for relay running challenge
-    ├── 2024.html       # 2024 New Horizons Challenge details & results
-    └── 2025.html       # 2025 challenge planning
+├── site/                   # Main Astro site
+│   ├── src/
+│   │   ├── pages/          # index.astro, music.astro, travel.astro
+│   │   ├── layouts/        # Layout.astro (shared nav, footer)
+│   │   ├── data/           # aotw.ts (Album of the Week schedule)
+│   │   └── styles/         # global.css (Tailwind)
+│   └── package.json
+├── tarot/
+│   ├── app/                # Vite + React frontend (builds to /tarot/)
+│   │   ├── src/
+│   │   │   ├── App.tsx
+│   │   │   ├── cards.ts
+│   │   │   ├── components/
+│   │   │   └── index.css
+│   │   └── vite.config.ts  # base: '/tarot/'
+│   └── worker/             # Cloudflare Worker (POST /reading → Anthropic API)
+│       ├── src/index.ts
+│       └── wrangler.toml
+├── new_horizons/           # Sub-site for relay running challenge
+│   ├── 2024.html
+│   └── 2025.html
+├── 404.html                # Custom error page
+├── CNAME                   # Custom domain: stephendove.com
+└── .github/workflows/
+    └── deploy.yml          # Builds site + tarot/app, deploys to GitHub Pages
 ```
 
 ## Local Development
 
-No install step needed. Serve locally with:
+**Main site:**
+```
+cd site && npm install && npm run dev
+```
+Runs on `http://localhost:4321`.
 
-- **VS Code LiveServer** (configured on port 5501 via `.vscode/settings.json`) — recommended
-- Or: `python -m http.server 5501`
+**Tarot app:**
+```
+cd tarot/app && npm install && npm run dev
+```
+Needs `VITE_WORKER_URL` in a `.env` file pointing to the worker.
+
+**Tarot worker:**
+```
+cd tarot/worker && npm install && npx wrangler dev
+```
+Needs `ANTHROPIC_API_KEY` in `.dev.vars`.
 
 ## Deployment
 
-Push to `master` branch → GitHub Pages automatically deploys to `stephendove.com`.
+Push to `master` → GitHub Actions builds `site/` and `tarot/app/`, merges tarot into `site/dist/tarot/`, deploys everything to GitHub Pages.
+
+The tarot worker is deployed separately:
+```
+cd tarot/worker && npx wrangler deploy
+```
+
+The Monday cron (`0 10 * * 1`, 5am ET / 10:00 UTC) rebuilds and redeploys the site so the Album of the Week updates automatically.
+
+## Album of the Week
+
+Entries live in `site/src/data/aotw.ts`. Add future entries with `weekOf` set to the Monday of that week (`YYYY-MM-DD`). The build picks the most recent entry whose `weekOf` is on or before the build date.
 
 ## Conventions
 
-- Bootstrap utility classes for layout and spacing (`container-lg`, `row`, `col-md-*`, `py-5`, `fw-bold`, etc.)
+- Tailwind utility classes throughout the Astro site
+- Theme system via `data-theme` on `<html>` (ocean / midnight), stored in localStorage
 - Section `id` attributes used for anchor links: `#about`, `#cv`, `#interests`
-- Images use `img-fluid` for responsiveness
-- Bootstrap modals for expandable content (e.g., interest cards on homepage)
-- Consistent navbar across all pages linking to About, CV, Interests, and GitHub
+- Tarot app linked quietly via a `✦` symbol in the footer

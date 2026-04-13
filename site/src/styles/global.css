@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+/*
+  Top 100 numbered lists — CSS counter approach so entries auto-number
+  and re-number correctly when items are inserted or removed.
+  counter-reset can be overridden inline (style="counter-reset: top100 50;")
+  to start a list at an arbitrary number for the right-column 51-100 list.
+*/
+.top-100-list {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: top100;
+}
+
+.top-100-list li {
+  counter-increment: top100;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--list-border, rgba(0, 0, 0, 0.07));
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.top-100-list li::before {
+  content: counter(top100) ".";
+  min-width: 2.25rem;
+  text-align: right;
+  color: #6b7280;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.top-100-list li.empty-slot {
+  color: #9ca3af;
+}
+
+/* Top 100 grid — centered single column when collapsed, two columns when expanded */
+.list-grid {
+  display: flex;
+  justify-content: center;
+}
+.list-grid > *:first-child {
+  width: 100%;
+  max-width: 28rem; /* ~448px — comfortable reading width for a single list */
+}
+.list-grid.expanded {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+.list-grid.expanded > *:first-child {
+  max-width: none;
+}
+@media (min-width: 768px) {
+  .list-grid.expanded {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── Theming ──────────────────────────────────────────────────────────── */
+
+/* Default theme */
+:root {
+  --surface-nav:     #f9fafb;
+  --border-nav:      #e5e7eb;
+  --nav-text:        #4b5563;
+  --nav-text-hover:  #111827;
+  --nav-hover-bg:    #f3f4f6;
+  --nav-active-bg:   #e5e7eb;
+  --nav-active-text: #111827;
+  --surface-body:    #ffffff;
+  --surface-alt:     #f9fafb;
+  --surface-card:    #ffffff;
+  --surface-footer:  #111827;
+  --text-footer:     #9ca3af;
+  --text-primary:    #111827;
+  --list-border:     rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="ocean"] {
+  --surface-nav:     #eff6ff;
+  --border-nav:      #dbeafe;
+  --nav-text:        #3b5fa0;
+  --nav-text-hover:  #1e3a8a;
+  --nav-hover-bg:    #dbeafe;
+  --nav-active-bg:   #bfdbfe;
+  --nav-active-text: #1e3a8a;
+  --surface-body:    #f8faff;
+  --surface-alt:     #eff6ff;
+  --surface-card:    #ffffff;
+  --surface-footer:  #0f172a;
+  --text-footer:     #94a3b8;
+  --text-primary:    #1e3a8a;
+  --list-border:     rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="forest"] {
+  --surface-nav:     #f0f9f1;
+  --border-nav:      #dcfce7;
+  --nav-text:        #4a7c59;
+  --nav-text-hover:  #1a4a2a;
+  --nav-hover-bg:    #dcfce7;
+  --nav-active-bg:   #bbf7d0;
+  --nav-active-text: #1a4a2a;
+  --surface-body:    #f8fbf8;
+  --surface-alt:     #f0f9f1;
+  --surface-card:    #ffffff;
+  --surface-footer:  #0d1f10;
+  --text-footer:     #7aa880;
+  --text-primary:    #1a3a22;
+  --list-border:     rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="midnight"] {
+  --surface-nav:     #09090b;
+  --border-nav:      #27272a;
+  --nav-text:        #a1a1aa;
+  --nav-text-hover:  #fafafa;
+  --nav-hover-bg:    #27272a;
+  --nav-active-bg:   #3f3f46;
+  --nav-active-text: #fafafa;
+  --surface-body:    #18181b;
+  --surface-alt:     #1f1f23;
+  --surface-card:    #27272a;
+  --surface-footer:  #09090b;
+  --text-footer:     #71717a;
+  --text-primary:    #fafafa;
+  --list-border:     rgba(255, 255, 255, 0.08);
+}
+
+
+/* Structural theme classes */
+.theme-body    { background-color: var(--surface-body); color: var(--text-primary); }
+.theme-nav     { background-color: var(--surface-nav); border-color: var(--border-nav); }
+.theme-section { background-color: var(--surface-body); }
+.theme-section-alt { background-color: var(--surface-alt); }
+.theme-card    { background-color: var(--surface-card); }
+.theme-footer  { background-color: var(--surface-footer); color: var(--text-footer); }
+
+/* Mobile nav menu: themed bg on mobile, transparent on md+ */
+.theme-nav-menu { background-color: var(--surface-nav); border-color: var(--border-nav); }
+@media (min-width: 768px) {
+  .theme-nav-menu { background-color: transparent; border-color: transparent; }
+}
+
+/* Brand link in nav */
+.theme-brand { color: var(--nav-text); transition: color 150ms; }
+.theme-brand:hover { color: var(--nav-text-hover); }
+
+/* Hamburger / icon button in nav */
+.theme-nav-btn { color: var(--nav-text); }
+.theme-nav-btn:hover { background-color: var(--nav-hover-bg); }
+
+/* Nav links — replaces the Tailwind conditional color classes */
+.nav-link {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 150ms, background-color 150ms;
+  color: var(--nav-text);
+}
+.nav-link:hover { color: var(--nav-text-hover); background-color: var(--nav-hover-bg); }
+.nav-link.active { color: var(--nav-active-text); background-color: var(--nav-active-bg); }
+
+/* ── Midnight overrides — fix hardcoded Tailwind text/border colors ── */
+[data-theme="midnight"] .text-gray-900,
+[data-theme="midnight"] .text-gray-800,
+[data-theme="midnight"] .text-gray-700 { color: #fafafa; }
+[data-theme="midnight"] .text-gray-600,
+[data-theme="midnight"] .text-gray-500 { color: #a1a1aa; }
+[data-theme="midnight"] .text-gray-400 { color: #71717a; }
+[data-theme="midnight"] .text-blue-600,
+[data-theme="midnight"] .text-blue-500 { color: #a78bfa; }
+[data-theme="midnight"] .border-blue-500  { border-color: #a78bfa; }
+[data-theme="midnight"] .bg-blue-600      { background-color: #6d28d9; }
+[data-theme="midnight"] .hover\:bg-blue-50:hover { background-color: #3f3f46; }
+[data-theme="midnight"] .border-gray-100,
+[data-theme="midnight"] .border-gray-200  { border-color: #3f3f46; }
+[data-theme="midnight"] .shadow-sm,
+[data-theme="midnight"] .shadow-md        { box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.6); }
+[data-theme="midnight"] dialog            { background-color: #27272a; }
+
+/* details/summary — rotate the chevron when open */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .chevron {
+  transform: rotate(180deg);
+}

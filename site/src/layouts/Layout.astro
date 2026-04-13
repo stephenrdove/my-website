@@ -28,23 +28,30 @@ import '../styles/global.css';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="default">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <!-- Apply saved theme before first paint to prevent flash -->
+    <script is:inline>
+      (function () {
+        var t = localStorage.getItem('sd-theme');
+        document.documentElement.dataset.theme = t || 'ocean';
+      })();
+    </script>
   </head>
 
-  <body class="min-h-screen flex flex-col bg-white text-gray-900">
+  <body class="min-h-screen flex flex-col theme-body">
 
     <!-- ── Main Navigation ───────────────────────────────────────────── -->
-    <nav class="fixed top-0 inset-x-0 z-50 bg-gray-50 border-b border-gray-200 h-14">
+    <nav class="fixed top-0 inset-x-0 z-50 theme-nav border-b h-14">
       <div class="max-w-screen-xl mx-auto px-4 h-full flex items-center justify-between">
 
         <!-- Brand -->
-        <a href="/" class="flex items-center gap-2 font-bold text-gray-500 hover:text-gray-700 transition-colors">
+        <a href="/" class="flex items-center gap-2 font-bold theme-brand">
           <!-- Person icon (Bootstrap Icons: person-fill) -->
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
@@ -58,7 +65,7 @@ import '../styles/global.css';
           aria-label="Toggle navigation"
           aria-expanded="false"
           aria-controls="nav-menu"
-          class="md:hidden p-2 rounded text-gray-500 hover:bg-gray-200 transition-colors"
+          class="md:hidden p-2 rounded theme-nav-btn transition-colors"
         >
           <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
@@ -76,53 +83,30 @@ import '../styles/global.css';
             absolute md:static top-14 inset-x-0
             flex-col md:flex-row
             md:items-center md:gap-1
-            bg-gray-50 md:bg-transparent
-            border-b md:border-0 border-gray-200
+            theme-nav-menu
+            border-b md:border-0
             px-4 md:px-0 py-3 md:py-0
           "
         >
+          <li><a href="/"      class={`nav-link ${activeNav === 'home'   ? 'active' : ''}`}>Home</a></li>
+          <li><a href="/music" class={`nav-link ${activeNav === 'music'  ? 'active' : ''}`}>Music</a></li>
+          <li><a href="/travel"class={`nav-link ${activeNav === 'travel' ? 'active' : ''}`}>Travel</a></li>
           <li>
-            <a
-              href="/"
-              class={`block px-3 py-1.5 rounded text-sm font-medium transition-colors
-                ${activeNav === 'home'
-                  ? 'text-gray-900 bg-gray-200'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}
-            >
-              Home
-            </a>
-          </li>
-          <li>
-            <a
-              href="/music"
-              class={`block px-3 py-1.5 rounded text-sm font-medium transition-colors
-                ${activeNav === 'music'
-                  ? 'text-gray-900 bg-gray-200'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}
-            >
-              Music
-            </a>
-          </li>
-          <li>
-            <a
-              href="/travel"
-              class={`block px-3 py-1.5 rounded text-sm font-medium transition-colors
-                ${activeNav === 'travel'
-                  ? 'text-gray-900 bg-gray-200'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}
-            >
-              Travel
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://github.com/stephenrdove"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="block px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
-            >
+            <a href="https://github.com/stephenrdove" target="_blank" rel="noopener noreferrer" class="nav-link">
               GitHub
             </a>
+          </li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle dark mode" class="theme-nav-btn p-2 rounded transition-colors">
+              <!-- Moon — shown in light mode -->
+              <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
+              </svg>
+              <!-- Sun — shown in dark mode -->
+              <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="hidden">
+                <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707"/>
+              </svg>
+            </button>
           </li>
         </ul>
 
@@ -147,9 +131,9 @@ import '../styles/global.css';
     </main>
 
     <!-- ── Footer ────────────────────────────────────────────────────── -->
-    <footer class="bg-gray-900 text-gray-400 py-6 mt-auto">
+    <footer class="theme-footer py-6 mt-auto">
       <div class="max-w-screen-lg mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-3">
-        <span class="text-sm">&copy; 2026 Stephen Dove</span>
+        <span class="text-sm">&copy; 2026 Stephen Dove &mdash; <a href="/tarot" class="opacity-40 hover:opacity-70 transition-opacity">✦</a></span>
         <div class="flex gap-5 text-xl">
           <!-- GitHub -->
           <a href="https://github.com/stephenrdove" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-white transition-colors">
@@ -173,8 +157,9 @@ import '../styles/global.css';
       </div>
     </footer>
 
-    <!-- Mobile nav toggle script -->
+    <!-- Mobile nav toggle + dark mode toggle scripts -->
     <script>
+      // Mobile hamburger
       const toggle = document.getElementById('nav-toggle');
       const menu = document.getElementById('nav-menu');
       const iconOpen = document.getElementById('icon-open');
@@ -187,6 +172,27 @@ import '../styles/global.css';
         iconOpen?.classList.toggle('hidden', !isOpen);
         iconClose?.classList.toggle('hidden', isOpen);
       });
+
+      // Dark mode toggle
+      const themeToggle = document.getElementById('theme-toggle');
+      const iconMoon = document.getElementById('icon-moon');
+      const iconSun  = document.getElementById('icon-sun');
+
+      function updateToggleIcon(theme: string) {
+        const isDark = theme === 'midnight';
+        iconMoon?.classList.toggle('hidden', isDark);
+        iconSun?.classList.toggle('hidden', !isDark);
+      }
+
+      themeToggle?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'midnight' ? 'ocean' : 'midnight';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('sd-theme', next);
+        updateToggleIcon(next);
+      });
+
+      // Sync icon to whatever theme was applied on load
+      updateToggleIcon(document.documentElement.dataset.theme || 'ocean');
     </script>
 
   </body>

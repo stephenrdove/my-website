@@ -25,7 +25,7 @@ export interface Album {
 
 export const albums: Album[] = [
   {
-    weekOf: '2026-04-07',
+    weekOf: '2026-04-06',
     spotifyId: '78fVrBMf6FqWT9d1siaFLn',
     title: 'For Posterity',
     artist: 'Dryjacket',
@@ -39,7 +39,7 @@ export const albums: Album[] = [
     year: 2017,
   },
   {
-    weekOf: '2026-04-14',
+    weekOf: '2026-04-13',
     spotifyId: '2gToC0XAblE9h3UZD6aAaQ',
     title: 'Third Eye Blind',
     artist: 'Third Eye Blind',
@@ -48,7 +48,7 @@ export const albums: Album[] = [
     year: 1997,
   },
   {
-    weekOf: '2026-04-21',
+    weekOf: '2026-04-20',
     spotifyId: '6l3mTuQHtjeqoyYWkTxld8',
     title: 'Nearer My God',
     artist: 'Foxing',
@@ -57,7 +57,7 @@ export const albums: Album[] = [
     year: 2018,
   },
   {
-    weekOf: '2026-04-28',
+    weekOf: '2026-04-27',
     spotifyId: '2Qr40p1sv6NYrf9NPehsrO',
     title: 'Carnavas',
     artist: 'Silversun Pickups',
@@ -66,7 +66,7 @@ export const albums: Album[] = [
     year: 2006,
   },
   {
-    weekOf: '2026-05-05',
+    weekOf: '2026-05-04',
     spotifyId: '5Gs6TUCuOnRYyqYHwDLAAW',
     title: 'Clarity',
     artist: 'Jimmy Eat World',
@@ -75,7 +75,7 @@ export const albums: Album[] = [
     year: 1999,
   },
   {
-    weekOf: '2026-05-12',
+    weekOf: '2026-05-11',
     spotifyId: '0RADUK8yTUBidzBke6Eszq',
     title: 'Dude Ranch',
     artist: 'blink-182',
@@ -84,7 +84,7 @@ export const albums: Album[] = [
     year: 1997,
   },
   {
-    weekOf: '2026-05-19',
+    weekOf: '2026-05-18',
     spotifyId: '1yW5dI0y4ckpC2646nakvc',
     title: 'Hotel California',
     artist: 'Eagles',
@@ -93,7 +93,7 @@ export const albums: Album[] = [
     year: 1976,
   },
   {
-    weekOf: '2026-05-26',
+    weekOf: '2026-05-25',
     spotifyId: '3jWhmYMAWw5NvHTTeiQtfl',
     title: 'Pinkerton',
     artist: 'Weezer',
@@ -102,7 +102,7 @@ export const albums: Album[] = [
     year: 1996,
   },
   {
-    weekOf: '2026-06-02',
+    weekOf: '2026-06-01',
     spotifyId: '0FZK97MXMm5mUQ8mtudjuK',
     title: 'The Black Parade',
     artist: 'My Chemical Romance',
@@ -111,7 +111,7 @@ export const albums: Album[] = [
     year: 2006,
   },
   {
-    weekOf: '2026-06-09',
+    weekOf: '2026-06-08',
     spotifyId: '5YsF3JhLsMZDUXPlqnEw81',
     title: 'Supernatural',
     artist: 'Santana',

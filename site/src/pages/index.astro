@@ -15,25 +15,13 @@ import Layout from '../layouts/Layout.astro';
   -->
   <nav
     slot="subnav"
-    class="hidden md:block sticky top-14 z-40 bg-gray-50 border-b border-gray-200 py-2"
+    class="hidden md:block sticky top-14 z-40 theme-nav border-b py-2"
   >
     <div class="max-w-screen-xl mx-auto px-4">
       <ul class="flex justify-center gap-1">
-        <li>
-          <a href="#about" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
-            About
-          </a>
-        </li>
-        <li>
-          <a href="#cv" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
-            CV
-          </a>
-        </li>
-        <li>
-          <a href="#interests" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
-            Interests
-          </a>
-        </li>
+        <li><a href="#about"     class="nav-link">About</a></li>
+        <li><a href="#cv"        class="nav-link">CV</a></li>
+        <li><a href="#interests" class="nav-link">Interests</a></li>
       </ul>
     </div>
   </nav>
@@ -43,7 +31,7 @@ import Layout from '../layouts/Layout.astro';
     scroll-margin-top accounts for both navbars (56px main + 40px sub ≈ 110px).
     Same technique as the Bootstrap version, just as a Tailwind arbitrary value.
   -->
-  <section id="about" class="bg-gray-50 py-20 px-4 [scroll-margin-top:110px]">
+  <section id="about" class="theme-section-alt py-20 px-4 [scroll-margin-top:110px]">
     <div class="max-w-screen-lg mx-auto flex flex-col md:flex-row items-center gap-10">
 
       <!-- Text -->
@@ -73,7 +61,7 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- ── CV / Résumé ────────────────────────────────────────────────── -->
-  <section id="cv" class="bg-white py-20 px-4 [scroll-margin-top:110px]">
+  <section id="cv" class="theme-section py-20 px-4 [scroll-margin-top:110px]">
     <div class="max-w-screen-lg mx-auto">
 
       <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">Résumé</h1>
@@ -161,7 +149,7 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- ── Interests ──────────────────────────────────────────────────── -->
-  <section id="interests" class="bg-gray-50 py-20 px-4 [scroll-margin-top:110px]">
+  <section id="interests" class="theme-section-alt py-20 px-4 [scroll-margin-top:110px]">
     <div class="max-w-screen-lg mx-auto">
 
       <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">Interests</h1>
@@ -169,7 +157,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <!-- Skiing -->
-        <div class="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
+        <div class="theme-card rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
           <h3 class="text-xl font-semibold text-gray-800">Skiing</h3>
           <p class="text-gray-500">Mountains, speed, and cold air.</p>
           <!-- Snowflake icon -->
@@ -188,7 +176,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <!-- Music -->
-        <div class="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
+        <div class="theme-card rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
           <h3 class="text-xl font-semibold text-gray-800">Music</h3>
           <p class="text-gray-500">Musician &amp; listener.</p>
           <!-- Music note icon -->
@@ -209,7 +197,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <!-- Travel -->
-        <div class="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
+        <div class="theme-card rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-3">
           <h3 class="text-xl font-semibold text-gray-800">Travel</h3>
           <p class="text-gray-500">Always planning the next trip.</p>
           <!-- Luggage icon -->
@@ -238,7 +226,7 @@ import Layout from '../layouts/Layout.astro';
   -->
   <dialog
     id="wip-dialog"
-    class="rounded-xl shadow-xl p-0 w-full max-w-md backdrop:bg-black/50"
+    class="theme-card rounded-xl shadow-xl p-0 w-full max-w-md backdrop:bg-black/50"
   >
     <div class="p-6">
       <h2 class="text-lg font-semibold text-gray-800 mb-3">Still in Progress</h2>

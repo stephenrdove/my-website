@@ -12,7 +12,7 @@ const stateData: Record<string, { name: string; notes: string; photos: string[] 
   AR: { name: 'Arkansas',       notes: '', photos: [] },
   CA: { name: 'California',     notes: '', photos: [] },
   CO: { name: 'Colorado',       notes: '', photos: [] },
-  CT: { name: 'Connecticut',    notes: '', photos: [] },
+  CT: { name: 'Connecticut',    notes: 'Caught a few great shows here over the years — blink-182 and Avenged Sevenfold among the highlights. Connecticut has a solid venue scene for a small state.', photos: [] },
   DE: { name: 'Delaware',       notes: '', photos: [] },
   FL: { name: 'Florida',        notes: '', photos: [] },
   GA: { name: 'Georgia',        notes: '', photos: [] },
@@ -24,9 +24,9 @@ const stateData: Record<string, { name: string; notes: string; photos: string[] 
   KS: { name: 'Kansas',         notes: '', photos: [] },
   KY: { name: 'Kentucky',       notes: '', photos: [] },
   LA: { name: 'Louisiana',      notes: '', photos: [] },
-  ME: { name: 'Maine',          notes: '', photos: [] },
+  ME: { name: 'Maine',          notes: 'Ran a half marathon at Bar Harbor — one of the most scenic race courses imaginable. Acadia National Park right there as your backdrop has a way of making the miles feel shorter.', photos: [] },
   MD: { name: 'Maryland',       notes: '', photos: [] },
-  MA: { name: 'Massachusetts',  notes: '', photos: [] },
+  MA: { name: 'Massachusetts',  notes: 'Grew up here. The place that shaped me — the sports loyalties, the accent I swear I don\'t have, and an appreciation for a proper winter.', photos: [] },
   MI: { name: 'Michigan',       notes: '', photos: [] },
   MN: { name: 'Minnesota',      notes: '', photos: [] },
   MS: { name: 'Mississippi',    notes: '', photos: [] },
@@ -34,23 +34,23 @@ const stateData: Record<string, { name: string; notes: string; photos: string[] 
   MT: { name: 'Montana',        notes: '', photos: [] },
   NE: { name: 'Nebraska',       notes: '', photos: [] },
   NV: { name: 'Nevada',         notes: '', photos: [] },
-  NH: { name: 'New Hampshire',  notes: '', photos: [] },
-  NJ: { name: 'New Jersey',     notes: '', photos: [] },
+  NH: { name: 'New Hampshire',  notes: 'Grew up skiing here most weekends in the winter. The White Mountains were basically a second home from December through March — early mornings, cold lifts, and the kind of runs that make you forget about everything else.', photos: [] },
+  NJ: { name: 'New Jersey',     notes: 'My college roommate — and all-around great human — grew up on the Shore. Visited enough times to have a genuine appreciation for boardwalk food and the Jersey Shore in the off-season, which is genuinely underrated.', photos: [] },
   NM: { name: 'New Mexico',     notes: '', photos: [] },
-  NY: { name: 'New York',       notes: '', photos: [] },
+  NY: { name: 'New York',       notes: 'A frequent destination over the years. NYC has a way of pulling you back — there\'s always something happening, always somewhere to be. "I\'m walkin\' here."', photos: [] },
   NC: { name: 'North Carolina', notes: '', photos: [] },
   ND: { name: 'North Dakota',   notes: '', photos: [] },
   OH: { name: 'Ohio',           notes: '', photos: [] },
   OK: { name: 'Oklahoma',       notes: '', photos: [] },
   OR: { name: 'Oregon',         notes: '', photos: [] },
   PA: { name: 'Pennsylvania',   notes: '', photos: [] },
-  RI: { name: 'Rhode Island',   notes: 'Brown University for grad school. Also worked at Lifespan. Great food, walkable city, love Providence.', photos: [] },
+  RI: { name: 'Rhode Island',   notes: 'Grad school at Brown University, and worked at Lifespan during that time. Providence punches well above its weight — walkable, great food scene, genuinely interesting city. Easy to love.', photos: [] },
   SC: { name: 'South Carolina', notes: '', photos: [] },
   SD: { name: 'South Dakota',   notes: '', photos: [] },
   TN: { name: 'Tennessee',      notes: '', photos: [] },
   TX: { name: 'Texas',          notes: '', photos: [] },
   UT: { name: 'Utah',           notes: '', photos: [] },
-  VT: { name: 'Vermont',        notes: '', photos: [] },
+  VT: { name: 'Vermont',        notes: 'In love with Burlington. It has everything — the lake, the mountains nearby, a great food and bar scene, and a pace of life that feels just right. One of those places that makes you genuinely consider a life change.', photos: [] },
   VA: { name: 'Virginia',       notes: '', photos: [] },
   WA: { name: 'Washington',     notes: '', photos: [] },
   WV: { name: 'West Virginia',  notes: '', photos: [] },
@@ -77,24 +77,7 @@ const fipsToAbbr: Record<string, string> = {
   activeNav="travel"
 >
 
-  <!-- Sub-nav -->
-  <nav slot="subnav" class="hidden md:block sticky top-14 z-40 bg-gray-50 border-b border-gray-200 py-2">
-    <div class="max-w-screen-xl mx-auto px-4">
-      <ul class="flex justify-center gap-1">
-        <li>
-          <a href="/#about" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">About</a>
-        </li>
-        <li>
-          <a href="/#cv" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">CV</a>
-        </li>
-        <li>
-          <a href="/#interests" class="px-3 py-1.5 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">Interests</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <section class="py-16 px-4 [scroll-margin-top:110px]">
+  <section class="theme-section py-16 px-4 [scroll-margin-top:56px]">
     <div class="max-w-screen-lg mx-auto">
       <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">Travel</h1>
       <p class="text-center text-gray-500 mb-10">Hover a state to see its name. Click for details.</p>

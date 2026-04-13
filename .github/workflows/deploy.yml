@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - master          # production deploys
-      - astro_experiment # preview deploys while experimenting
   workflow_dispatch:    # allow manual trigger from the Actions tab
   schedule:
-    - cron: '0 13 * * 1'   # every Monday at 8am ET (13:00 UTC)
+    - cron: '0 10 * * 1'   # every Monday at 5am ET (10:00 UTC)
 
 # Required permissions for the deploy-pages action
 permissions:
@@ -33,21 +32,37 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: astro_src/package-lock.json
+          cache-dependency-path: site/package-lock.json
 
-      - name: Install dependencies
-        working-directory: astro_src
+      # ── Main site ───────────────────────────────────────────────────────
+      - name: Install site dependencies
+        working-directory: site
         run: npm ci
 
-      - name: Build
-        working-directory: astro_src
+      - name: Build site
+        working-directory: site
         run: npm run build
 
-      # Uploads astro_src/dist/ as the artifact that the deploy job will publish
+      # ── Tarot app ───────────────────────────────────────────────────────
+      - name: Install Tarot dependencies
+        working-directory: tarot/app
+        run: npm install
+
+      - name: Build Tarot
+        working-directory: tarot/app
+        run: npm run build
+        env:
+          VITE_WORKER_URL: ${{ secrets.VITE_WORKER_URL }}
+
+      # Merge tarot/app/dist into the site output so both ship together
+      - name: Merge Tarot build into site dist
+        run: cp -r tarot/app/dist/. site/dist/tarot/
+
+      # Uploads site/dist/ as the artifact that the deploy job will publish
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: astro_src/dist
+          path: site/dist
 
   deploy:
     needs: build

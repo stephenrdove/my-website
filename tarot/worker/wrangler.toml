@@ -1,0 +1,9 @@
+name = "tarot-worker"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+# Set your API key as a secret (never commit it):
+#   wrangler secret put ANTHROPIC_API_KEY
+#
+# After deploying, note your worker URL from the output, then set
+# VITE_WORKER_URL in your tarot/.env (and as a GitHub Actions secret).
