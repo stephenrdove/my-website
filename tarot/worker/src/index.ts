@@ -97,7 +97,7 @@ async function handleReading(
     if (!anthropicRes.ok) {
       const text = await anthropicRes.text();
       console.error('Anthropic error:', anthropicRes.status, text);
-      return jsonResponse({ error: 'Reading unavailable' }, 502, cors);
+      return jsonResponse({ error: 'Reading unavailable', debug: `${anthropicRes.status}: ${text}` }, 502, cors);
     }
 
     const data = await anthropicRes.json() as {
