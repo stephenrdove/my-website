@@ -1,0 +1,170 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="The New Horizons Challenge"
+  description="A relay run across the Madison, WI solar system, from the Sun to Pluto."
+>
+
+  <nav slot="subnav" class="hidden md:block sticky top-14 z-40 theme-nav border-b py-2">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <ul class="flex justify-center gap-1">
+        <li><a href="#about"         class="nav-link">About</a></li>
+        <li><a href="#specs"         class="nav-link">Specifications</a></li>
+        <li><a href="#challenges"    class="nav-link">Challenges</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── About ──────────────────────────────────────────────────────────── -->
+  <section id="about" class="theme-section-alt py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto text-center">
+      <h1 class="text-5xl font-bold text-gray-800 mb-3">The New Horizons Challenge</h1>
+      <p class="text-2xl text-gray-500 mb-1">A Relay Across the Solar System</p>
+      <p class="text-gray-400 mb-8">Madison, WI</p>
+      <p class="text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto mb-10">
+        The New Horizons space probe, launched in 2006, is known for its flyby of Pluto in 2015
+        recording the images and analysis that are used today. Like New Horizons, we traverse our
+        solar system, from our great giver of life to the most famous dwarf planet, on foot. The
+        Planet Trek Dane County (PTDC) gives us a ~200 million to 1 scale of the solar system right
+        here in (greater) Madison. Let's tackle this trek one planet at a time!
+      </p>
+      <h2 class="text-2xl font-semibold text-gray-700 mb-6">Goals</h2>
+      <ul class="flex flex-col gap-4 text-left max-w-md w-full mx-auto">
+        <li class="flex items-start gap-3">
+          <!-- Flag — relay/finish line -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-blue-500 shrink-0 mt-0.5" viewBox="0 0 16 16">
+            <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.269-.414.5.5 0 0 1 .572.076z"/>
+          </svg>
+          <span class="text-gray-700">Run from the Sun (Monona Terrace) to Pluto (Mount Horeb) via relay.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <!-- Star — celebration -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-blue-500 shrink-0 mt-0.5" viewBox="0 0 16 16">
+            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+          </svg>
+          <span class="text-gray-500">Enjoy our accomplishment and each other's company at Brix Cider.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Specifications ─────────────────────────────────────────────────── -->
+  <section id="specs" class="theme-section py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">Specifications</h2>
+
+      <!-- Intro text — centered, comfortable reading width -->
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <p class="text-gray-500 leading-relaxed mb-4">
+          Many of you may be able to run the whole thing (23-24 miles), but there is no shot
+          that I can/want to do that. The plan is to relay legs where the handoff will be at a
+          planet sign. For those of you that are familiar with the solar system, you are probably
+          thinking that the distance between planets is not consistent. That is correct, we will
+          need some ringers to take on the latter legs from Uranus to Neptune and Neptune to Pluto.
+        </p>
+        <p class="text-gray-500 leading-relaxed">
+          I made <a href="https://www.google.com/maps/d/u/0/edit?mid=14U8yDoH_GjqDM6AMxsnHR6s0jAfoKN4&usp=sharing" class="text-blue-600 hover:underline">this map</a> on Google Maps to give rough estimates of where everything is.
+        </p>
+      </div>
+
+      <!-- Planet list + Relay legs — always side by side, constrained width -->
+      <div class="max-w-2xl mx-auto flex gap-6">
+
+        <div class="flex-1 min-w-0">
+          <h3 class="text-lg font-semibold text-gray-700 mb-3 text-center">Planets and Locations</h3>
+          <ol class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+            {[
+              ['Sun',     'Monona Terrace'],
+              ['Mercury', 'Right outside Monona Terrace'],
+              ['Venus',   'Still right outside Monona Terrace'],
+              ['Earth',   'Brittingham Boathouse'],
+              ['Mars',    'Near West Washington'],
+              ['Jupiter', 'Between Camp Randall and Glenway'],
+              ['Saturn',  'Between Midvale and the Beltline'],
+              ['Uranus',  'Military Ridge Trail, before Verona'],
+              ['Neptune', 'Past Epic\'s farm campus'],
+              ['Pluto',   'Mount Horeb'],
+            ].map(([planet, location]) => (
+              <li class="py-2 px-3 text-sm text-center">
+                <span class="font-semibold text-gray-700">{planet}</span>
+                <span class="text-gray-400 mx-1">&mdash;</span>
+                <span class="text-gray-500">{location}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <h3 class="text-lg font-semibold text-gray-700 mb-3 text-center">Relay Legs</h3>
+          <div class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+            {[
+              { leg: 'Sun to Mars',       dist: '1 Mile'    },
+              { leg: 'Mars to Saturn',    dist: '4 Miles'   },
+              { leg: 'Saturn to Uranus',  dist: '4 Miles'   },
+              { leg: 'Uranus to Neptune', dist: '~6 Miles'  },
+              { leg: 'Neptune to Pluto',  dist: '~10 Miles' },
+            ].map(({ leg, dist }) => (
+              <div class="py-3 px-4 text-center">
+                <p class="font-bold text-gray-700 text-sm mb-0.5">{leg}</p>
+                <p class="text-gray-500 text-xs">{dist}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Challenges ─────────────────────────────────────────────────────── -->
+  <section id="challenges" class="theme-section-alt py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">The Challenges</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="theme-card rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-2">
+          <h3 class="text-2xl font-bold text-gray-800">2024</h3>
+          <p class="text-gray-500">July 20, 2024</p>
+          <p class="text-green-600 font-semibold">Completed ✓</p>
+          <a
+            href="/new_horizons/2024"
+            class="mt-4 px-5 py-2 rounded-lg border border-blue-500 text-blue-600 text-sm font-medium hover:bg-blue-50 transition-colors"
+          >
+            View Details
+          </a>
+        </div>
+
+        <div class="theme-card rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-2">
+          <h3 class="text-2xl font-bold text-gray-800">2025</h3>
+          <p class="text-gray-500">October 11, 2025</p>
+          <p class="text-green-600 font-semibold">Completed ✓</p>
+          <a
+            href="/new_horizons/2025"
+            class="mt-4 px-5 py-2 rounded-lg border border-blue-500 text-blue-600 text-sm font-medium hover:bg-blue-50 transition-colors"
+          >
+            View Details
+          </a>
+        </div>
+
+        <div class="theme-card rounded-xl shadow-sm p-8 flex flex-col items-center text-center gap-2">
+          <h3 class="text-2xl font-bold text-gray-800">2026</h3>
+          <p class="text-gray-500">TBD</p>
+          <p class="text-gray-400 italic">In planning</p>
+          <span class="mt-4 px-5 py-2 rounded-lg border border-gray-300 text-gray-400 text-sm font-medium cursor-default">
+            Stay tuned
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="theme-section py-8 px-4">
+    <div class="max-w-screen-lg mx-auto text-center text-gray-500 font-medium">
+      Questions? Please reach out to Stephen.
+    </div>
+  </section>
+
+</Layout>
