@@ -27,6 +27,7 @@ interface CardInput {
 const ALLOWED_ORIGINS = [
   'https://stephendove.com',
   'https://www.stephendove.com',
+  'https://stephenrdove.github.io',
   'http://localhost:5173',
   'http://localhost:4321',
 ];
@@ -44,11 +45,15 @@ export default {
       'Access-Control-Allow-Headers': 'Content-Type',
     };
 
+    const url = new URL(request.url);
+
+    if (url.pathname.startsWith('/dinnerboard')) {
+      return handleDinnerboard(request, allowedOrigin);
+    }
+
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
-
-    const url = new URL(request.url);
 
     if (request.method === 'POST' && url.pathname === '/reading') {
       return handleReading(request, env, corsHeaders);
@@ -57,6 +62,36 @@ export default {
     return new Response('Not Found', { status: 404 });
   },
 };
+
+async function handleDinnerboard(request: Request, origin: string): Promise<Response> {
+  const corsHeaders: Record<string, string> = {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Auth-Token',
+  };
+
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: corsHeaders });
+  }
+
+  const url = new URL(request.url);
+  const targetPath = url.pathname.replace(/^\/dinnerboard/, '') || '/';
+  const targetUrl = `https://dinnerboard.stephendove-tarot.workers.dev${targetPath}`;
+
+  const proxyReq = new Request(targetUrl, {
+    method: request.method,
+    headers: request.headers,
+    body: request.method !== 'GET' ? request.body : undefined,
+  });
+
+  const res = await fetch(proxyReq);
+  const body = await res.text();
+
+  return new Response(body, {
+    status: res.status,
+    headers: { 'Content-Type': 'application/json', ...corsHeaders },
+  });
+}
 
 async function handleReading(
   request: Request,
@@ -73,6 +108,20 @@ async function handleReading(
 
   if (!Array.isArray(body.cards) || body.cards.length !== 3) {
     return jsonResponse({ error: 'Expected exactly 3 cards' }, 400, cors);
+  }
+
+  const VALID_POSITIONS    = new Set(['Past', 'Present', 'Future']);
+  const VALID_ORIENTATIONS = new Set(['upright', 'reversed']);
+
+  for (const card of body.cards) {
+    if (
+      typeof card.name        !== 'string' || card.name.length        > 50  ||
+      typeof card.meaning     !== 'string' || card.meaning.length     > 300 ||
+      typeof card.position    !== 'string' || !VALID_POSITIONS.has(card.position)    ||
+      typeof card.orientation !== 'string' || !VALID_ORIENTATIONS.has(card.orientation)
+    ) {
+      return jsonResponse({ error: 'Invalid card data' }, 400, cors);
+    }
   }
 
   const [past, present, future] = body.cards;
