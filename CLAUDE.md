@@ -18,6 +18,7 @@ stephendove_site/
 ├── site/                   # Main Astro site
 │   ├── src/
 │   │   ├── pages/          # index.astro, music.astro, travel.astro
+│   │   │   └── new_horizons/  # Relay running challenge (index, 2024, 2025)
 │   │   ├── layouts/        # Layout.astro (shared nav, footer)
 │   │   ├── data/           # aotw.ts (Album of the Week schedule)
 │   │   └── styles/         # global.css (Tailwind)
@@ -33,9 +34,6 @@ stephendove_site/
 │   └── worker/             # Cloudflare Worker (POST /reading → Anthropic API)
 │       ├── src/index.ts
 │       └── wrangler.toml
-├── new_horizons/           # Sub-site for relay running challenge
-│   ├── 2024.html
-│   └── 2025.html
 ├── 404.html                # Custom error page
 ├── CNAME                   # Custom domain: stephendove.com
 └── .github/workflows/

@@ -1,0 +1,133 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="2026 — The New Horizons Challenge"
+  description="The 2026 New Horizons Challenge — relay run from the Sun to Pluto on October 10, 2026."
+>
+
+  <nav slot="subnav" class="hidden md:block sticky top-14 z-40 theme-nav border-b py-2">
+    <div class="max-w-screen-xl mx-auto px-4">
+      <ul class="flex justify-center gap-1">
+        <li><a href="/new_horizons" class="nav-link">&larr; New Horizons</a></li>
+        <li><a href="#relay"        class="nav-link">Relay Legs</a></li>
+        <li><a href="#logistics"    class="nav-link">Logistics</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <section class="theme-section-alt py-12 px-4">
+    <div class="max-w-screen-lg mx-auto text-center">
+      <h1 class="text-5xl font-bold text-gray-800 mb-2">2026 Challenge</h1>
+      <p class="text-gray-500">October 10, 2026 &mdash; Madison, WI</p>
+      <p class="text-blue-600 font-bold text-lg mt-2">Sign up for a leg!</p>
+    </div>
+  </section>
+
+  <!-- ── Relay Legs ─────────────────────────────────────────────────────── -->
+  <section id="relay" class="theme-section py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">Relay Legs</h2>
+
+      <div class="max-w-md mx-auto">
+        <div class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+          {[
+            { leg: 'Sun to Mars',       dist: '1 Mile',     athletes: 'TBD', time: 'TBD' },
+            { leg: 'Mars to Saturn',    dist: '4 Miles',    athletes: 'TBD', time: 'TBD' },
+            { leg: 'Saturn to Uranus',  dist: '4 Miles',    athletes: 'TBD', time: 'TBD' },
+            { leg: 'Uranus to Neptune', dist: '>5 Miles',   athletes: 'TBD', time: 'TBD' },
+            { leg: 'Neptune to Pluto',  dist: '9.75 Miles', athletes: 'TBD', time: 'TBD' },
+          ].map(({ leg, dist, athletes, time }) => (
+            <div class="py-4 px-5 text-center">
+              <p class="font-bold text-gray-700 mb-1">{leg}</p>
+              <p class="text-gray-500 text-sm">Distance: {dist}</p>
+              <p class="text-gray-500 text-sm">Athletes: {athletes}</p>
+              <p class="text-gray-500 text-sm">Estimated Time: {time}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Spotify -->
+      <div class="mt-12 max-w-md mx-auto">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4 text-center">Need Music?</h3>
+        <iframe
+          style="border-radius:12px"
+          src="https://open.spotify.com/embed/playlist/3qLG1XdspF6Pd37BjTeV0Z?utm_source=generator"
+          width="100%"
+          height="352"
+          frameborder="0"
+          allowfullscreen
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Logistics ──────────────────────────────────────────────────────── -->
+  <section id="logistics" class="theme-section-alt py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">Logistics</h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+        <!-- Date / Weather -->
+        <div>
+          <h3 class="text-xl font-semibold text-gray-700 mb-4">Date and Time</h3>
+          <p class="font-bold text-gray-700 mb-3">7.30a on Saturday, 10.10.2026 at the Dovecote</p>
+          <p class="text-gray-500 leading-relaxed mb-4">
+            Brix Cider opens at 11a on Saturdays, so we will start around 8a in case anyone
+            decides to be a hero and run way faster than expected.
+          </p>
+          <p class="text-gray-500 leading-relaxed mb-8">
+            If you are not at the Dovecote by the time we need to leave for your leg, we will have
+            to leave without you (which would be a bummer). If you won't be able to make it to the
+            Dovecote around 7.30a, let Stephen know and he can get an estimate for the time by which
+            you would need to make it.
+          </p>
+          <h3 class="text-xl font-semibold text-gray-700 mb-4">Weather Policy</h3>
+          <p class="text-gray-500 leading-relaxed">
+            We will play this by ear. A little rain never hurt anyone, but a lot of rain and/or
+            lightning have hurt people. Cross your fingers that we don't have to postpone.
+          </p>
+        </div>
+
+        <!-- Getting there -->
+        <div>
+          <h3 class="text-xl font-semibold text-gray-700 mb-4">Getting to Your Relay Leg</h3>
+          <p class="text-gray-500 leading-relaxed mb-4">
+            The plan is to drive folks from location to location. To be most efficient, homebase
+            will be the Dovecote. Please find your own way here. Driving assignments will be posted
+            once the legs are filled.
+          </p>
+          <div class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+            {[
+              { heading: 'Sun',     details: ['Drop at Monona Terrace'] },
+              { heading: 'Saturn',  details: ['Drop at Odana Hills GC, then take a right down the bike path'] },
+              { heading: 'Uranus',  details: ['Pick up near Goose Lake'] },
+              { heading: 'Neptune', details: ['Drop at Epic near Stable, take the ramp down to the bike path and take a right'] },
+              { heading: 'Pluto',   details: ['If anyone wants to come for the celebration at Brix Cider, they are more than welcome to join us!'] },
+            ].map(({ heading, details }) => (
+              <div class="py-4 px-5">
+                <p class="font-semibold text-gray-700 mb-1">{heading}</p>
+                {details.map(d => <p class="text-gray-500 text-sm">{d}</p>)}
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="theme-section py-8 px-4">
+    <div class="max-w-screen-lg mx-auto text-center text-gray-500 font-medium">
+      Questions? Please reach out to Stephen.
+    </div>
+  </section>
+
+</Layout>
