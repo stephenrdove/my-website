@@ -15,6 +15,7 @@
 
 export interface Env {
   ANTHROPIC_API_KEY: string;
+  RELAY_POLL:        KVNamespace;
 }
 
 interface CardInput {
@@ -49,6 +50,10 @@ export default {
 
     if (url.pathname.startsWith('/dinnerboard')) {
       return handleDinnerboard(request, allowedOrigin);
+    }
+
+    if (url.pathname === '/relay-poll') {
+      return handleRelayPoll(request, env, allowedOrigin);
     }
 
     if (request.method === 'OPTIONS') {
@@ -91,6 +96,91 @@ async function handleDinnerboard(request: Request, origin: string): Promise<Resp
     status: res.status,
     headers: { 'Content-Type': 'application/json', ...corsHeaders },
   });
+}
+
+/**
+ * New Horizons relay poll.
+ *
+ * GET  /relay-poll  → { responses: PollResponse[] }
+ * POST /relay-poll  Body: PollResponse → { ok: true }
+ *
+ * Each response is stored under its own KV key (keyed by lowercased name, so
+ * re-submitting the same name updates it). The response also rides along as
+ * key metadata, so a single list() call returns everything.
+ */
+const POLL_PREFIX = 'nh2026:';
+const POLL_DATES  = new Set(['2026-10-24', '2026-10-25', '2026-11-01', '2026-11-08', '2026-11-14', '2026-11-15']);
+const POLL_LEGS   = new Set(['sun-mars', 'mars-saturn', 'saturn-uranus', 'uranus-neptune', 'neptune-pluto']);
+const POLL_BRIX   = new Set(['yes', 'maybe', 'no', '']);
+
+interface PollResponse {
+  name:  string;
+  dates: Record<string, 'yes' | 'maybe'>;
+  legs:  string[];
+  brix:  'yes' | 'maybe' | 'no' | '';
+  note:  string;
+}
+
+async function handleRelayPoll(request: Request, env: Env, origin: string): Promise<Response> {
+  const cors: Record<string, string> = {
+    'Access-Control-Allow-Origin':  origin,
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: cors });
+  }
+
+  if (request.method === 'GET') {
+    const responses: PollResponse[] = [];
+    let cursor: string | undefined;
+    do {
+      const page = await env.RELAY_POLL.list<PollResponse>({ prefix: POLL_PREFIX, cursor });
+      for (const key of page.keys) if (key.metadata) responses.push(key.metadata);
+      cursor = page.list_complete ? undefined : page.cursor;
+    } while (cursor);
+    return jsonResponse({ responses }, 200, { ...cors, 'Cache-Control': 'no-store' });
+  }
+
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed' }, 405, cors);
+  }
+
+  let body: Partial<PollResponse>;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonResponse({ error: 'Invalid JSON body' }, 400, cors);
+  }
+
+  const name = typeof body.name === 'string' ? body.name.trim() : '';
+  const note = typeof body.note === 'string' ? body.note.trim() : '';
+  if (!name || name.length > 40 || note.length > 200) {
+    return jsonResponse({ error: 'Name is required (max 40 chars); note max 200 chars' }, 400, cors);
+  }
+
+  const dates: PollResponse['dates'] = {};
+  for (const [date, answer] of Object.entries(body.dates ?? {})) {
+    if (!POLL_DATES.has(date) || (answer !== 'yes' && answer !== 'maybe')) {
+      return jsonResponse({ error: 'Invalid date selection' }, 400, cors);
+    }
+    dates[date] = answer;
+  }
+
+  const legs = Array.isArray(body.legs) ? body.legs : [];
+  if (!legs.every(l => typeof l === 'string' && POLL_LEGS.has(l))) {
+    return jsonResponse({ error: 'Invalid leg selection' }, 400, cors);
+  }
+
+  const brix = body.brix ?? '';
+  if (!POLL_BRIX.has(brix)) {
+    return jsonResponse({ error: 'Invalid Brix answer' }, 400, cors);
+  }
+
+  const response: PollResponse = { name, dates, legs: [...new Set(legs)], brix, note };
+  await env.RELAY_POLL.put(POLL_PREFIX + name.toLowerCase(), '', { metadata: response });
+  return jsonResponse({ ok: true }, 200, cors);
 }
 
 async function handleReading(

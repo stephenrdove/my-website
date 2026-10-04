@@ -1,16 +1,35 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+// Keep in sync with POLL_DATES / POLL_LEGS in tarot/worker/src/index.ts
+const pollDates = [
+  { id: '2026-10-24', label: 'Sat, Oct 24' },
+  { id: '2026-10-25', label: 'Sun, Oct 25' },
+  { id: '2026-11-01', label: 'Sun, Nov 1'  },
+  { id: '2026-11-08', label: 'Sun, Nov 8'  },
+  { id: '2026-11-14', label: 'Sat, Nov 14' },
+  { id: '2026-11-15', label: 'Sun, Nov 15' },
+];
+const pollLegs = [
+  { id: 'sun-mars',       label: 'Sun to Mars',          dist: '1 mi'    },
+  { id: 'mars-saturn',    label: 'Mars to Saturn',       dist: '4 mi'    },
+  { id: 'saturn-uranus',  label: 'Saturn to Uranus',     dist: '4 mi'    },
+  { id: 'uranus-neptune', label: 'Uranus to Neptune',    dist: '>5 mi'   },
+  { id: 'neptune-pluto',  label: 'Neptune to Pluto',     dist: '9.75 mi' },
+];
+const workerUrl = import.meta.env.PUBLIC_WORKER_URL ?? '';
 ---
 
 <Layout
   title="2026 — The New Horizons Challenge"
-  description="The 2026 New Horizons Challenge — relay run from the Sun to Pluto on October 10, 2026."
+  description="The 2026 New Horizons Challenge — relay run from the Sun to Pluto. Vote on the date and pick your leg."
 >
 
   <nav slot="subnav" class="hidden md:block sticky top-14 z-40 theme-nav border-b py-2">
     <div class="max-w-screen-xl mx-auto px-4">
       <ul class="flex justify-center gap-1">
         <li><a href="/new_horizons" class="nav-link">&larr; New Horizons</a></li>
+        <li><a href="#poll"         class="nav-link">Poll</a></li>
         <li><a href="#relay"        class="nav-link">Relay Legs</a></li>
         <li><a href="#logistics"    class="nav-link">Logistics</a></li>
       </ul>
@@ -21,10 +40,285 @@ import Layout from '../../layouts/Layout.astro';
   <section class="theme-section-alt py-12 px-4">
     <div class="max-w-screen-lg mx-auto text-center">
       <h1 class="text-5xl font-bold text-gray-800 mb-2">2026 Challenge</h1>
-      <p class="text-gray-500">October 10, 2026 &mdash; Madison, WI</p>
-      <p class="text-blue-600 font-bold text-lg mt-2">Sign up for a leg!</p>
+      <p class="text-gray-500">Date TBD &mdash; Madison, WI</p>
+      <p class="text-blue-600 font-bold text-lg mt-2">Vote on a date and pick your leg below!</p>
     </div>
   </section>
+
+  <!-- ── Poll ───────────────────────────────────────────────────────────── -->
+  <section id="poll" class="theme-section py-16 px-4 [scroll-margin-top:110px]">
+    <div class="max-w-screen-lg mx-auto">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-3">Date and Leg Poll</h2>
+      <p class="text-center text-gray-500 mb-10 max-w-xl mx-auto">
+        Mark every date that works for you and every leg you'd be up for. Submitting again
+        with the same name updates your answers.
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+        <!-- Form -->
+        <form id="poll-form" data-worker={workerUrl} class="theme-card rounded-xl shadow-sm p-6 flex flex-col gap-6">
+          <label class="flex flex-col gap-1">
+            <span class="font-semibold text-gray-700">Your name</span>
+            <input
+              id="poll-name" name="name" required maxlength="40" autocomplete="given-name"
+              class="rounded-lg border border-gray-200 bg-transparent px-3 py-2 text-gray-700"
+            />
+          </label>
+
+          <fieldset>
+            <legend class="font-semibold text-gray-700 mb-2">Which dates work?</legend>
+            <div class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+              {pollDates.map(({ id, label }) => (
+                <div class="flex items-center justify-between gap-3 py-2 px-3">
+                  <span class="text-gray-700 text-sm">{label}</span>
+                  <div class="flex gap-1" role="radiogroup" aria-label={label}>
+                    {['no', 'maybe', 'yes'].map(answer => (
+                      <label class="cursor-pointer">
+                        <input type="radio" name={`date-${id}`} value={answer} checked={answer === 'no'} class="peer sr-only" />
+                        <span class="block px-3 py-1 rounded-md border border-gray-200 text-xs text-gray-500 capitalize
+                                     peer-checked:border-blue-500 peer-checked:text-blue-600 peer-checked:font-semibold
+                                     peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500">{answer}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend class="font-semibold text-gray-700 mb-2">Which legs are you interested in?</legend>
+            <div class="flex flex-wrap gap-2">
+              {pollLegs.map(({ id, label, dist }) => (
+                <label class="cursor-pointer">
+                  <input type="checkbox" name="legs" value={id} class="peer sr-only" />
+                  <span class="block px-3 py-1.5 rounded-full border border-gray-200 text-sm text-gray-500
+                               peer-checked:border-blue-500 peer-checked:text-blue-600 peer-checked:font-semibold
+                               peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500">
+                    {label} <span class="text-gray-400 font-normal">({dist})</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend class="font-semibold text-gray-700 mb-2">Will you join us at Brix Cider after?</legend>
+            <div class="flex gap-2">
+              {['yes', 'maybe', 'no'].map(answer => (
+                <label class="cursor-pointer">
+                  <input type="radio" name="brix" value={answer} class="peer sr-only" />
+                  <span class="block px-4 py-1.5 rounded-full border border-gray-200 text-sm text-gray-500 capitalize
+                               peer-checked:border-blue-500 peer-checked:text-blue-600 peer-checked:font-semibold
+                               peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500">{answer}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <label class="flex flex-col gap-1">
+            <span class="font-semibold text-gray-700">Anything else? <span class="text-gray-400 font-normal">(optional)</span></span>
+            <input
+              name="note" maxlength="200"
+              class="rounded-lg border border-gray-200 bg-transparent px-3 py-2 text-gray-700"
+            />
+          </label>
+
+          <div class="flex items-center gap-4">
+            <button type="submit" class="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:opacity-90 disabled:opacity-50">
+              Submit
+            </button>
+            <p id="poll-status" class="text-sm text-gray-500" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <!-- Results -->
+        <div class="flex flex-col gap-8">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-3">Dates</h3>
+            <div class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+              {pollDates.map(({ id, label }) => (
+                <div class="py-3 px-4" data-date-result={id}>
+                  <div class="flex items-baseline justify-between gap-3">
+                    <span class="font-semibold text-gray-700">{label}</span>
+                    <span class="text-sm text-gray-500" data-count>&ndash;</span>
+                  </div>
+                  <p class="text-xs text-gray-400 mt-0.5" data-names></p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-3">Legs</h3>
+            <div class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+              {pollLegs.map(({ id, label }) => (
+                <div class="py-3 px-4" data-leg-result={id}>
+                  <span class="font-semibold text-gray-700">{label}</span>
+                  <p class="text-sm text-gray-500 mt-0.5" data-names>&ndash;</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-3">Brix Cider</h3>
+            <div class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+              {['yes', 'maybe'].map(answer => (
+                <div class="py-3 px-4" data-brix-result={answer}>
+                  <div class="flex items-baseline justify-between gap-3">
+                    <span class="font-semibold text-gray-700 capitalize">{answer}</span>
+                    <span class="text-sm text-gray-500" data-count>&ndash;</span>
+                  </div>
+                  <p class="text-sm text-gray-500 mt-0.5" data-names></p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div id="poll-notes" hidden>
+            <h3 class="text-xl font-semibold text-gray-700 mb-3">Notes</h3>
+            <ul class="flex flex-col gap-1 text-sm text-gray-500"></ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <style is:global>
+    /* Midnight theme doesn't override peer-checked variants; match its accent */
+    [data-theme="midnight"] #poll-form .peer:checked + span { border-color: #a78bfa; color: #a78bfa; }
+    /* Inset accent bar on the leading date (a border would recolor the row dividers too) */
+    .poll-leading { box-shadow: inset 4px 0 0 #3b82f6; }
+    [data-theme="midnight"] .poll-leading { box-shadow: inset 4px 0 0 #a78bfa; }
+  </style>
+
+  <script>
+    interface PollResponse {
+      name:  string;
+      dates: Record<string, 'yes' | 'maybe'>;
+      legs:  string[];
+      brix:  'yes' | 'maybe' | 'no' | '';
+      note:  string;
+    }
+
+    const form    = document.getElementById('poll-form') as HTMLFormElement;
+    const status  = document.getElementById('poll-status')!;
+    const nameEl  = document.getElementById('poll-name') as HTMLInputElement;
+    const api     = `${form.dataset.worker}/relay-poll`;
+    let responses: PollResponse[] = [];
+
+    function render() {
+      const scores = new Map<string, number>();
+      document.querySelectorAll<HTMLElement>('[data-date-result]').forEach(row => {
+        const id    = row.dataset.dateResult!;
+        const yes   = responses.filter(r => r.dates[id] === 'yes').map(r => r.name);
+        const maybe = responses.filter(r => r.dates[id] === 'maybe').map(r => r.name);
+        scores.set(id, yes.length * 2 + maybe.length);
+        row.querySelector('[data-count]')!.textContent = `${yes.length} yes · ${maybe.length} maybe`;
+        row.querySelector('[data-names]')!.textContent =
+          [...yes, ...maybe.map(n => `${n} (maybe)`)].join(', ');
+      });
+
+      const best = Math.max(0, ...scores.values());
+      document.querySelectorAll<HTMLElement>('[data-date-result]').forEach(row => {
+        const leading = best > 0 && scores.get(row.dataset.dateResult!) === best;
+        row.classList.toggle('poll-leading', leading);
+        row.querySelector('[data-count]')!.classList.toggle('text-blue-600', leading);
+      });
+
+      document.querySelectorAll<HTMLElement>('[data-leg-result]').forEach(row => {
+        const names = responses.filter(r => r.legs.includes(row.dataset.legResult!)).map(r => r.name);
+        row.querySelector('[data-names]')!.textContent = names.length ? names.join(', ') : '–';
+      });
+
+      document.querySelectorAll<HTMLElement>('[data-brix-result]').forEach(row => {
+        const names = responses.filter(r => r.brix === row.dataset.brixResult).map(r => r.name);
+        row.querySelector('[data-count]')!.textContent = String(names.length);
+        row.querySelector('[data-names]')!.textContent = names.join(', ');
+      });
+
+      const notes = responses.filter(r => r.note);
+      const notesEl = document.getElementById('poll-notes')!;
+      notesEl.hidden = notes.length === 0;
+      notesEl.querySelector('ul')!.replaceChildren(...notes.map(r => {
+        const li = document.createElement('li');
+        li.textContent = `${r.name}: ${r.note}`;
+        return li;
+      }));
+    }
+
+    // Prefill the form with a returning person's previous answers
+    function prefill(name: string) {
+      const prev = responses.find(r => r.name.toLowerCase() === name.trim().toLowerCase());
+      if (!prev) return;
+      form.querySelectorAll<HTMLInputElement>('input[type=radio][name^="date-"]').forEach(input => {
+        const id = input.name.replace('date-', '');
+        input.checked = input.value === (prev.dates[id] ?? 'no');
+      });
+      form.querySelectorAll<HTMLInputElement>('input[name=brix]').forEach(input => {
+        input.checked = input.value === prev.brix;
+      });
+      form.querySelectorAll<HTMLInputElement>('input[name=legs]').forEach(input => {
+        input.checked = prev.legs.includes(input.value);
+      });
+      (form.elements.namedItem('note') as HTMLInputElement).value = prev.note;
+    }
+
+    async function load() {
+      try {
+        const res = await fetch(api);
+        if (!res.ok) throw new Error();
+        responses = ((await res.json()) as { responses: PollResponse[] }).responses;
+        render();
+        if (nameEl.value) prefill(nameEl.value);
+      } catch {
+        status.textContent = 'Could not load results.';
+      }
+    }
+
+    nameEl.addEventListener('change', () => prefill(nameEl.value));
+
+    try { nameEl.value = localStorage.getItem('nh-poll-name') ?? ''; } catch {}
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const dates: PollResponse['dates'] = {};
+      for (const [key, value] of data) {
+        if (key.startsWith('date-') && (value === 'yes' || value === 'maybe')) dates[key.slice(5)] = value;
+      }
+      const body: PollResponse = {
+        name:  String(data.get('name') ?? '').trim(),
+        dates,
+        legs:  data.getAll('legs').map(String),
+        brix:  (data.get('brix') ?? '') as PollResponse['brix'],
+        note:  String(data.get('note') ?? '').trim(),
+      };
+
+      const button = form.querySelector('button')!;
+      button.disabled = true;
+      status.textContent = 'Saving…';
+      try {
+        const res = await fetch(api, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error(((await res.json()) as { error?: string }).error);
+        try { localStorage.setItem('nh-poll-name', body.name); } catch {}
+        // Update locally right away; KV listings can take up to a minute to catch up
+        responses = [...responses.filter(r => r.name.toLowerCase() !== body.name.toLowerCase()), body];
+        render();
+        status.textContent = 'Thanks! Your answers are saved.';
+      } catch (err) {
+        status.textContent = (err as Error).message || 'Something went wrong. Try again?';
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    load();
+  </script>
 
   <!-- ── Relay Legs ─────────────────────────────────────────────────────── -->
   <section id="relay" class="theme-section py-16 px-4 [scroll-margin-top:110px]">
@@ -78,10 +372,10 @@ import Layout from '../../layouts/Layout.astro';
         <!-- Date / Weather -->
         <div>
           <h3 class="text-xl font-semibold text-gray-700 mb-4">Date and Time</h3>
-          <p class="font-bold text-gray-700 mb-3">7.30a on Saturday, 10.10.2026 at the Dovecote</p>
+          <p class="font-bold text-gray-700 mb-3">7.30a on race day at the Dovecote (date TBD, see the poll above)</p>
           <p class="text-gray-500 leading-relaxed mb-4">
-            Brix Cider opens at 11a on Saturdays, so we will start around 8a in case anyone
-            decides to be a hero and run way faster than expected.
+            Brix Cider opens at 11a on Saturdays and Sundays, so we will start around 8a in case
+            anyone decides to be a hero and run way faster than expected.
           </p>
           <p class="text-gray-500 leading-relaxed mb-8">
             If you are not at the Dovecote by the time we need to leave for your leg, we will have
