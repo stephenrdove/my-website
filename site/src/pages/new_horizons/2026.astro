@@ -12,9 +12,9 @@ const pollDates = [
 ];
 const pollLegs = [
   { id: 'sun-mars',       label: 'Sun to Mars',          dist: '1 mi'    },
-  { id: 'mars-saturn',    label: 'Mars to Saturn',       dist: '4 mi'    },
-  { id: 'saturn-uranus',  label: 'Saturn to Uranus',     dist: '4 mi'    },
-  { id: 'uranus-neptune', label: 'Uranus to Neptune',    dist: '>5 mi'   },
+  { id: 'mars-saturn',    label: 'Mars to Saturn',       dist: '3.8 mi'  },
+  { id: 'saturn-uranus',  label: 'Saturn to Uranus',     dist: '3.6 mi'  },
+  { id: 'uranus-neptune', label: 'Uranus to Neptune',    dist: '5.4 mi'  },
   { id: 'neptune-pluto',  label: 'Neptune to Pluto',     dist: '9.75 mi' },
 ];
 const workerUrl = import.meta.env.PUBLIC_WORKER_URL ?? '';
@@ -329,9 +329,9 @@ const workerUrl = import.meta.env.PUBLIC_WORKER_URL ?? '';
         <div class="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
           {[
             { leg: 'Sun to Mars',       dist: '1 Mile',     athletes: 'TBD', time: 'TBD' },
-            { leg: 'Mars to Saturn',    dist: '4 Miles',    athletes: 'TBD', time: 'TBD' },
-            { leg: 'Saturn to Uranus',  dist: '4 Miles',    athletes: 'TBD', time: 'TBD' },
-            { leg: 'Uranus to Neptune', dist: '>5 Miles',   athletes: 'TBD', time: 'TBD' },
+            { leg: 'Mars to Saturn',    dist: '3.8 Miles',  athletes: 'TBD', time: 'TBD' },
+            { leg: 'Saturn to Uranus',  dist: '3.6 Miles',  athletes: 'TBD', time: 'TBD' },
+            { leg: 'Uranus to Neptune', dist: '5.4 Miles',  athletes: 'TBD', time: 'TBD' },
             { leg: 'Neptune to Pluto',  dist: '9.75 Miles', athletes: 'TBD', time: 'TBD' },
           ].map(({ leg, dist, athletes, time }) => (
             <div class="py-4 px-5 text-center">
