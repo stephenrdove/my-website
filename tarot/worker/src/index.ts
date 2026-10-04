@@ -13,9 +13,13 @@
  * Settings > Rate Limiting) if you ever need server-side enforcement.
  */
 
+import { EmailMessage } from 'cloudflare:email';
+
 export interface Env {
   ANTHROPIC_API_KEY: string;
   RELAY_POLL:        KVNamespace;
+  POLL_EMAIL:        SendEmail;
+  NOTIFY_EMAILS?:    string;
 }
 
 interface CardInput {
@@ -34,7 +38,7 @@ const ALLOWED_ORIGINS = [
 ];
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const origin = request.headers.get('Origin') ?? '';
     const allowedOrigin = ALLOWED_ORIGINS.includes(origin)
       ? origin
@@ -53,7 +57,7 @@ export default {
     }
 
     if (url.pathname === '/relay-poll') {
-      return handleRelayPoll(request, env, allowedOrigin);
+      return handleRelayPoll(request, env, ctx, allowedOrigin);
     }
 
     if (request.method === 'OPTIONS') {
@@ -109,8 +113,21 @@ async function handleDinnerboard(request: Request, origin: string): Promise<Resp
  * key metadata, so a single list() call returns everything.
  */
 const POLL_PREFIX = 'nh2026:';
-const POLL_DATES  = new Set(['2026-10-24', '2026-10-25', '2026-11-01', '2026-11-08', '2026-11-14', '2026-11-15']);
-const POLL_LEGS   = new Set(['sun-mars', 'mars-saturn', 'saturn-uranus', 'uranus-neptune', 'neptune-pluto']);
+const POLL_DATES  = new Map([
+  ['2026-10-24', 'Sat, Oct 24'],
+  ['2026-10-25', 'Sun, Oct 25'],
+  ['2026-11-01', 'Sun, Nov 1'],
+  ['2026-11-08', 'Sun, Nov 8'],
+  ['2026-11-14', 'Sat, Nov 14'],
+  ['2026-11-15', 'Sun, Nov 15'],
+]);
+const POLL_LEGS   = new Map([
+  ['sun-mars',       'Sun to Mars'],
+  ['mars-saturn',    'Mars to Saturn'],
+  ['saturn-uranus',  'Saturn to Uranus'],
+  ['uranus-neptune', 'Uranus to Neptune'],
+  ['neptune-pluto',  'Neptune to Pluto'],
+]);
 const POLL_BRIX   = new Set(['yes', 'maybe', 'no', '']);
 
 interface PollResponse {
@@ -121,7 +138,12 @@ interface PollResponse {
   note:  string;
 }
 
-async function handleRelayPoll(request: Request, env: Env, origin: string): Promise<Response> {
+async function handleRelayPoll(
+  request: Request,
+  env:     Env,
+  ctx:     ExecutionContext,
+  origin:  string,
+): Promise<Response> {
   const cors: Record<string, string> = {
     'Access-Control-Allow-Origin':  origin,
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -179,8 +201,68 @@ async function handleRelayPoll(request: Request, env: Env, origin: string): Prom
   }
 
   const response: PollResponse = { name, dates, legs: [...new Set(legs)], brix, note };
-  await env.RELAY_POLL.put(POLL_PREFIX + name.toLowerCase(), '', { metadata: response });
+  const key = POLL_PREFIX + name.toLowerCase();
+  const isUpdate = (await env.RELAY_POLL.getWithMetadata(key)).metadata !== null;
+  await env.RELAY_POLL.put(key, '', { metadata: response });
+
+  // Email in the background so a mail hiccup never fails the submission
+  ctx.waitUntil(notifyPollResponse(env, response, isUpdate).catch(err => {
+    console.error('Poll email failed:', err);
+  }));
+
   return jsonResponse({ ok: true }, 200, cors);
+}
+
+/**
+ * Emails each address in the NOTIFY_EMAILS secret (comma-separated) via
+ * Cloudflare Email Routing. Recipients live in a secret rather than
+ * wrangler.toml to keep them out of the public repo; each one must be a
+ * verified destination address in Email Routing.
+ */
+async function notifyPollResponse(env: Env, r: PollResponse, isUpdate: boolean): Promise<void> {
+  const recipients = (env.NOTIFY_EMAILS ?? '').split(',').map(s => s.trim()).filter(Boolean);
+  if (recipients.length === 0) return;
+
+  const dateLines = [...POLL_DATES]
+    .filter(([id]) => r.dates[id])
+    .map(([id, label]) => `  ${label}: ${r.dates[id]}`);
+
+  const subject = `${r.name} ${isUpdate ? 'updated' : 'filled out'} the relay poll`;
+  const text = [
+    `${subject}.`,
+    '',
+    'Dates:',
+    ...(dateLines.length ? dateLines : ['  (none)']),
+    '',
+    `Legs: ${r.legs.map(id => POLL_LEGS.get(id)).join(', ') || '(none)'}`,
+    `Brix: ${r.brix || '(no answer)'}`,
+    ...(r.note ? [`Note: ${r.note}`] : []),
+    '',
+    'All results: https://stephendove.com/new_horizons/2026#poll',
+  ].join('\r\n');
+
+  const from = 'poll@stephendove.com';
+  for (const to of recipients) {
+    const raw = [
+      `From: New Horizons Poll <${from}>`,
+      `To: ${to}`,
+      `Subject: ${encodeHeader(subject)}`,
+      `Date: ${new Date().toUTCString()}`,
+      `Message-ID: <${crypto.randomUUID()}@stephendove.com>`,
+      'MIME-Version: 1.0',
+      'Content-Type: text/plain; charset=UTF-8',
+      'Content-Transfer-Encoding: 8bit',
+      '',
+      text,
+    ].join('\r\n');
+    await env.POLL_EMAIL.send(new EmailMessage(from, to, raw));
+  }
+}
+
+/** RFC 2047 encoded-word, so names with accents (or stray newlines) are safe in a header. */
+function encodeHeader(value: string): string {
+  const bytes = new TextEncoder().encode(value);
+  return `=?UTF-8?B?${btoa(String.fromCharCode(...bytes))}?=`;
 }
 
 async function handleReading(

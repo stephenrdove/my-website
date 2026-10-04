@@ -14,3 +14,9 @@ compatibility_date = "2024-09-23"
 [[kv_namespaces]]
 binding = "RELAY_POLL"
 id = "6398c6fafe334b4f9decf35de6c6f77f"
+
+# Relay poll notification emails (sent from poll@stephendove.com via Email
+# Routing). Recipients come from the NOTIFY_EMAILS secret:
+#   wrangler secret put NOTIFY_EMAILS   (comma-separated, each verified in Email Routing)
+[[send_email]]
+name = "POLL_EMAIL"
